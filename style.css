@@ -107,7 +107,7 @@ html, body {
 /* Слева 1 */
 .cover-card.prev-1 {
   opacity: 0.85;
-  transform: translateX(-760px) scale(0.255) rotateY(45deg);
+  transform: translateX(-420px) scale(0.255) rotateY(45deg);
   z-index: 9;
   filter: blur(2px);
 }
@@ -115,7 +115,7 @@ html, body {
 /* Слева 2 */
 .cover-card.prev-2 {
   opacity: 0.5;
-  transform: translateX(-1220px) scale(0.195) rotateY(55deg);
+  transform: translateX(-700px) scale(0.195) rotateY(55deg);
   z-index: 8;
   filter: blur(4px);
 }
@@ -123,7 +123,7 @@ html, body {
 /* Справа 1 */
 .cover-card.next-1 {
   opacity: 0.85;
-  transform: translateX(760px) scale(0.255) rotateY(-45deg);
+  transform: translateX(420px) scale(0.255) rotateY(-45deg);
   z-index: 9;
   filter: blur(2px);
 }
@@ -131,7 +131,7 @@ html, body {
 /* Справа 2 */
 .cover-card.next-2 {
   opacity: 0.5;
-  transform: translateX(1220px) scale(0.195) rotateY(-55deg);
+  transform: translateX(700px) scale(0.195) rotateY(-55deg);
   z-index: 8;
   filter: blur(4px);
 }
