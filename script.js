@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', () => {
     element: playerEl,
     mini: false,
     autoplay: false,
-    theme: '#3e4a7c',
+    theme: '#576394',                        /* ← цвет плеера под стиль сайта */
     loop: 'all',
     order: 'list',
     preload: 'auto',
