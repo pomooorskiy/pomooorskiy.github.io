@@ -217,12 +217,12 @@ html, body {
   .cover-card.active {
     transform: translateX(0) scale(0.19) rotateY(0deg);
   }
-  .cover-card.prev-1 {
-    transform: translateX(-430px) scale(0.1425) rotateY(40deg);
-  }
-  .cover-card.next-1 {
-    transform: translateX(430px) scale(0.1425) rotateY(-40deg);
-  }
+.cover-card.prev-1 {
+  transform: translateX(-240px) scale(0.1425) rotateY(40deg);
+}
+.cover-card.next-1 {
+  transform: translateX(240px) scale(0.1425) rotateY(-40deg);
+}
   .cover-card.prev-2,
   .cover-card.next-2 {
     opacity: 0;
