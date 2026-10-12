@@ -1,3 +1,4 @@
+/* ================= БАЗА ================= */
 html, body {
   margin: 0;
   padding: 0;
@@ -135,9 +136,12 @@ html, body {
   filter: blur(4px);
 }
 
+/* ================= КНОПКИ НАВИГАЦИИ ================= */
 .controls {
   position: absolute;
   bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 20px;
   z-index: 20;
@@ -163,16 +167,81 @@ html, body {
   transform: scale(1.1);
 }
 
+/* ================= ПЛЕЕР ================= */
+.player-wrapper {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+  width: 380px;
+  max-width: calc(100% - 40px);
+}
+
+.player-wrapper .aplayer {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-radius: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Убираем скругления у APlayer */
+.player-wrapper .aplayer,
+.player-wrapper .aplayer-pic,
+.player-wrapper .aplayer-info,
+.player-wrapper .aplayer-list ol li,
+.player-wrapper .aplayer-list-cur {
+  border-radius: 0 !important;
+}
+
 /* ================= АДАПТИВ ================= */
 @media (max-width: 600px) {
-  .site-header { height: 65px; padding: 0 15px; gap: 12px; }
-  .site-logo { height: 42px; width: 42px; }
-  .site-title { font-size: 14px; letter-spacing: 0.5px; }
-  .coverflow-container { padding-top: 65px; perspective: 2100px; }
+  /* Шапка */
+  .site-header {
+    height: 65px;
+    padding: 0 15px;
+    gap: 12px;
+  }
+  .site-logo {
+    height: 42px;
+    width: 42px;
+  }
+  .site-title {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
 
-  .cover-card.active { transform: translateX(0) scale(0.19) rotateY(0deg); }
-  .cover-card.prev-1 { transform: translateX(-430px) scale(0.1425) rotateY(40deg); }
-  .cover-card.next-1 { transform: translateX(430px) scale(0.1425) rotateY(-40deg); }
+  /* Карусель */
+  .coverflow-container {
+    padding-top: 65px;
+    perspective: 2100px;
+  }
+  .cover-card.active {
+    transform: translateX(0) scale(0.19) rotateY(0deg);
+  }
+  .cover-card.prev-1 {
+    transform: translateX(-430px) scale(0.1425) rotateY(40deg);
+  }
+  .cover-card.next-1 {
+    transform: translateX(430px) scale(0.1425) rotateY(-40deg);
+  }
   .cover-card.prev-2,
-  .cover-card.next-2 { opacity: 0; }
+  .cover-card.next-2 {
+    opacity: 0;
+  }
+
+  /* Кнопки навигации */
+  .controls {
+    bottom: 90px;
+  }
+  .nav-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
+
+  /* Плеер */
+  .player-wrapper {
+    width: calc(100% - 30px);
+    left: 15px;
+    bottom: 15px;
+  }
 }
