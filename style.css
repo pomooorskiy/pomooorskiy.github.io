@@ -51,7 +51,7 @@ html, body {
   min-height: 600px;
   padding-top: 80px;
   box-sizing: border-box;
-  perspective: 1400px;
+  perspective: 4200px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,17 +70,18 @@ html, body {
   transform-style: preserve-3d;
 }
 
+/* Карточка A4: 1000 × 1414 px, визуально масштабируется через scale() */
 .cover-card {
   position: absolute;
-  width: 300px;
-  height: 424px;
+  width: 1000px;
+  height: 1414px;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
   cursor: pointer;
   border-radius: 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   overflow: hidden;
   opacity: 0;
-  transform: translateX(0) scale(0.5) rotateY(0deg);
+  transform: translateX(0) scale(0.1) rotateY(0deg);
   z-index: 0;
   background: #f0f0f0;
 }
@@ -93,38 +94,43 @@ html, body {
   display: block;
 }
 
+/* Активная: визуально ~330 × 466 px */
 .cover-card.active {
   opacity: 1;
-  transform: translateX(0) scale(1.1) rotateY(0deg);
+  transform: translateX(0) scale(0.33) rotateY(0deg);
   z-index: 10;
   box-shadow: 0 25px 60px rgba(0,0,0,0.5);
   filter: blur(0);
 }
 
+/* Слева 1 */
 .cover-card.prev-1 {
   opacity: 0.85;
-  transform: translateX(-230px) scale(0.85) rotateY(45deg);
+  transform: translateX(-760px) scale(0.255) rotateY(45deg);
   z-index: 9;
   filter: blur(2px);
 }
 
+/* Слева 2 */
 .cover-card.prev-2 {
   opacity: 0.5;
-  transform: translateX(-370px) scale(0.65) rotateY(55deg);
+  transform: translateX(-1220px) scale(0.195) rotateY(55deg);
   z-index: 8;
   filter: blur(4px);
 }
 
+/* Справа 1 */
 .cover-card.next-1 {
   opacity: 0.85;
-  transform: translateX(230px) scale(0.85) rotateY(-45deg);
+  transform: translateX(760px) scale(0.255) rotateY(-45deg);
   z-index: 9;
   filter: blur(2px);
 }
 
+/* Справа 2 */
 .cover-card.next-2 {
   opacity: 0.5;
-  transform: translateX(370px) scale(0.65) rotateY(-55deg);
+  transform: translateX(1220px) scale(0.195) rotateY(-55deg);
   z-index: 8;
   filter: blur(4px);
 }
@@ -162,12 +168,11 @@ html, body {
   .site-header { height: 65px; padding: 0 15px; gap: 12px; }
   .site-logo { height: 42px; width: 42px; }
   .site-title { font-size: 14px; letter-spacing: 0.5px; }
-  .coverflow-container { padding-top: 65px; }
+  .coverflow-container { padding-top: 65px; perspective: 2100px; }
 
-  .cover-card { width: 190px; height: 269px; }
-  .cover-card.active { transform: translateX(0) scale(1) rotateY(0deg); }
-  .cover-card.prev-1 { transform: translateX(-130px) scale(0.75) rotateY(40deg); }
-  .cover-card.next-1 { transform: translateX(130px) scale(0.75) rotateY(-40deg); }
+  .cover-card.active { transform: translateX(0) scale(0.19) rotateY(0deg); }
+  .cover-card.prev-1 { transform: translateX(-430px) scale(0.1425) rotateY(40deg); }
+  .cover-card.next-1 { transform: translateX(430px) scale(0.1425) rotateY(-40deg); }
   .cover-card.prev-2,
   .cover-card.next-2 { opacity: 0; }
 }
