@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+
+  <!-- APlayer CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css">
 </head>
 <body>
 
@@ -51,6 +54,38 @@
       <button class="nav-btn" id="nextBtn">❯</button>
     </div>
   </div>
+
+  <!-- ================= ПЛЕЕР ================= -->
+  <div class="player-wrapper">
+    <div id="aplayer"></div>
+  </div>
+
+  <!-- APlayer JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script>
+  <script>
+    const ap = new APlayer({
+      element: document.getElementById('aplayer'),
+      mini: false,
+      autoplay: false,
+      theme: '#3e4a7c',
+      loop: 'all',
+      order: 'list',
+      preload: 'auto',
+      volume: 0.7,
+      mutex: true,
+      listFolded: false,
+      listMaxHeight: 90,
+      lrcType: 0,
+      audio: [
+        {
+          name: 'Голосуй за ППП',
+          artist: 'Filzzznet',
+          url: 'votefor.mp3',
+          cover: 'https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4'
+        }
+      ]
+    });
+  </script>
 
   <script src="script.js"></script>
 </body>
