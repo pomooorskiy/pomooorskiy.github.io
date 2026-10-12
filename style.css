@@ -1,0 +1,276 @@
+/* ================= БАЗА ================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* ================= ШАПКА САЙТА ================= */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 25px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  z-index: 999;
+}
+
+.site-logo {
+  height: 55px;
+  width: 55px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.site-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #576394;
+  margin: 0;
+  line-height: 1.15;
+}
+
+/* ================= ОСНОВНОЙ КОНТЕНТ ================= */
+.main-content {
+  padding-top: 100px;
+  padding-bottom: 60px;
+  box-sizing: border-box;
+  min-height: 100vh;
+}
+
+/* ================= ЗАГОЛОВОК НАД КАРУСЕЛЬЮ ================= */
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #576394;
+  text-align: center;
+  margin: 0 0 20px 0;
+}
+
+/* ================= КАРУСЕЛЬ ================= */
+.coverflow-container {
+  width: 100%;
+  height: 600px;
+  perspective: 1400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  background-color: #ffffff;
+}
+
+.coverflow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+/* Карточка A4: 1000 × 1414 px, визуально масштабируется через scale() */
+.cover-card {
+  position: absolute;
+  width: 1000px;
+  height: 1414px;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s ease;
+  cursor: pointer;
+  border-radius: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(0) scale(0.1) rotateY(0deg);
+  z-index: 0;
+  background: #f0f0f0;
+}
+
+.cover-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  display: block;
+}
+
+/* Активная: визуально ~330 × 466 px */
+.cover-card.active {
+  opacity: 1;
+  transform: translateX(0) scale(0.33) rotateY(0deg);
+  z-index: 10;
+  box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  filter: blur(0);
+}
+
+/* Слева 1 — компактное расстояние, как в начале */
+.cover-card.prev-1 {
+  opacity: 0.85;
+  transform: translateX(-300px) scale(0.255) rotateY(45deg);
+  z-index: 9;
+  filter: blur(2px);
+}
+
+/* Слева 2 */
+.cover-card.prev-2 {
+  opacity: 0.5;
+  transform: translateX(-500px) scale(0.195) rotateY(55deg);
+  z-index: 8;
+  filter: blur(4px);
+}
+
+/* Справа 1 */
+.cover-card.next-1 {
+  opacity: 0.85;
+  transform: translateX(300px) scale(0.255) rotateY(-45deg);
+  z-index: 9;
+  filter: blur(2px);
+}
+
+/* Справа 2 */
+.cover-card.next-2 {
+  opacity: 0.5;
+  transform: translateX(500px) scale(0.195) rotateY(-55deg);
+  z-index: 8;
+  filter: blur(4px);
+}
+
+/* ================= КНОПКИ НАВИГАЦИИ (СИНИЕ) ================= */
+.controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 20;
+}
+
+.nav-btn {
+  background: #576394;
+  border: 2px solid #576394;
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: #ffffff;
+  color: #576394;
+  transform: scale(1.08);
+}
+
+/* ================= СЕТКА 6 ЯЧЕЕК (2 СТОЛБИКА) ================= */
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 700px;
+  margin: 40px auto 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.grid-cell {
+  background: #576394;
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 120px;
+  border-radius: 0;
+}
+
+/* ================= АДАПТИВ ================= */
+@media (max-width: 600px) {
+  /* Шапка */
+  .site-header {
+    height: 65px;
+    padding: 0 15px;
+    gap: 12px;
+  }
+  .site-logo {
+    height: 42px;
+    width: 42px;
+  }
+  .site-title {
+    font-size: 14px;
+    letter-spacing: 0.5px;
+  }
+
+  /* Контент */
+  .main-content {
+    padding-top: 80px;
+  }
+
+  /* Заголовок */
+  .section-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  /* Карусель */
+  .coverflow-container {
+    height: 420px;
+    perspective: 1000px;
+  }
+  .cover-card.active {
+    transform: translateX(0) scale(0.19) rotateY(0deg);
+  }
+  .cover-card.prev-1 {
+    transform: translateX(-180px) scale(0.1425) rotateY(40deg);
+  }
+  .cover-card.next-1 {
+    transform: translateX(180px) scale(0.1425) rotateY(-40deg);
+  }
+  .cover-card.prev-2,
+  .cover-card.next-2 {
+    opacity: 0;
+  }
+
+  /* Кнопки */
+  .nav-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  /* Сетка */
+  .grid-section {
+    gap: 12px;
+    margin-top: 25px;
+  }
+  .grid-cell {
+    font-size: 22px;
+    min-height: 90px;
+  }
+}
