@@ -390,7 +390,7 @@ if (scrollTopBtn) {
 })();
 
 
-/* ==================== ИГРА ПАЗЛ ==================== */
+
 /* ==================== ИГРА ПАЗЛ ==================== */
 (function () {
   const board = document.getElementById('puzzleBoard');
@@ -403,7 +403,7 @@ if (scrollTopBtn) {
   const TOTAL = SIZE * SIZE;
 
   // Картинка для пазла — логотип партии
-  const IMAGE_URL = 'https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4';
+  const IMAGE_URL = 'logo-puzzle.png';
 
   let tiles = [];       // значения 0..8, где 0 — пустая клетка
   let moves = 0;
