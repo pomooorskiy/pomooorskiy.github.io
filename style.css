@@ -312,13 +312,19 @@ html, body {
 
 #my-player {
   width: 100%;
-  max-width: 700px;
-  height: 180px;
-  border-radius: 16px;
+  max-width: 420px;
+  height: 120px;
+  border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 8px 25px var(--shadow-color);
 }
 
+#my-player iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: none;
+  display: block;
+}
 /* ================= СЕТКА ПРОГРАММЫ ================= */
 .grid-section {
   display: grid;
