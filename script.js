@@ -391,6 +391,7 @@ if (scrollTopBtn) {
 
 
 /* ==================== ИГРА ПАЗЛ ==================== */
+/* ==================== ИГРА ПАЗЛ ==================== */
 (function () {
   const board = document.getElementById('puzzleBoard');
   if (!board) return;
@@ -404,39 +405,50 @@ if (scrollTopBtn) {
   // Картинка для пазла — логотип партии
   const IMAGE_URL = 'https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4';
 
-  let tiles = [];       // массив значений 0..8, где 0 — пустая клетка
+  let tiles = [];       // значения 0..8, где 0 — пустая клетка
   let moves = 0;
+  let solved = false;
 
-  function initPuzzle() {
-    // Собираем решённое состояние: 0 (пусто) + 1..8
-    tiles = [];
-    for (let i = 0; i < TOTAL; i++) tiles.push(i);
-    moves = 0;
-    if (movesEl) movesEl.textContent = '0';
-    render();
+  // === Создание решённого состояния ===
+  function makeSolved() {
+    const arr = [];
+    for (let i = 0; i < TOTAL; i++) arr.push(i);
+    return arr;
   }
 
-  function shuffle() {
-    // Перемешиваем случайными допустимыми ходами (гарантирует решаемость)
-    tiles = [];
-    for (let i = 0; i < TOTAL; i++) tiles.push(i);
-    moves = 0;
-    if (movesEl) movesEl.textContent = '0';
-
-    const emptyIndex = tiles.indexOf(0);
-    let lastMove = -1;
-
-    for (let i = 0; i < 200; i++) {
-      const neighbors = getNeighbors(emptyIndex);
-      const options = neighbors.filter(n => n !== lastMove);
-      const pick = options[Math.floor(Math.random() * options.length)];
-      swap(emptyIndex, pick);
-      lastMove = emptyIndex;
+  // === Проверка решаемости перестановки ===
+  function isSolvable(arr) {
+    // Для пятнашек 3×3: считаем инверсии (без пустой клетки)
+    const flat = arr.filter(v => v !== 0);
+    let inversions = 0;
+    for (let i = 0; i < flat.length; i++) {
+      for (let j = i + 1; j < flat.length; j++) {
+        if (flat[i] > flat[j]) inversions++;
+      }
     }
+    return inversions % 2 === 0;
+  }
 
+  // === Перемешивание ===
+  function shuffle() {
+    // Генерируем случайную перестановку, пока она не станет решаемой и не равна решённой
+    let arr;
+    do {
+      arr = makeSolved();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    } while (!isSolvable(arr) || arr.every((v, i) => v === i));
+
+    tiles = arr;
+    moves = 0;
+    solved = false;
+    if (movesEl) movesEl.textContent = '0';
     render();
   }
 
+  // === Соседи пустой клетки ===
   function getNeighbors(index) {
     const row = Math.floor(index / SIZE);
     const col = index % SIZE;
@@ -448,14 +460,11 @@ if (scrollTopBtn) {
     return result;
   }
 
-  function swap(i, j) {
-    const tmp = tiles[i];
-    tiles[i] = tiles[j];
-    tiles[j] = tmp;
-  }
-
+  // === Отрисовка ===
   function render() {
     board.innerHTML = '';
+    board.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
+    board.style.gridTemplateRows = `repeat(${SIZE}, 1fr)`;
 
     tiles.forEach((value, index) => {
       const tile = document.createElement('div');
@@ -464,39 +473,46 @@ if (scrollTopBtn) {
       if (value === 0) {
         tile.classList.add('empty');
       } else {
-        // Вычисляем позицию фрагмента в исходном изображении
         const origRow = Math.floor((value - 1) / SIZE);
         const origCol = (value - 1) % SIZE;
         const bgX = (origCol / (SIZE - 1)) * 100;
         const bgY = (origRow / (SIZE - 1)) * 100;
 
         tile.style.backgroundImage = `url(${IMAGE_URL})`;
+        tile.style.backgroundSize = `${SIZE * 100}% ${SIZE * 100}%`;
         tile.style.backgroundPosition = `${bgX}% ${bgY}%`;
       }
 
-      tile.addEventListener('click', () => handleTileClick(index));
+      tile.addEventListener('click', () => handleClick(index));
       board.appendChild(tile);
     });
   }
 
-  function handleTileClick(index) {
+  // === Клик по плитке ===
+  function handleClick(index) {
+    if (solved) return;
+
     const emptyIndex = tiles.indexOf(0);
     const neighbors = getNeighbors(emptyIndex);
 
     if (!neighbors.includes(index)) return;
 
-    swap(index, emptyIndex);
+    // Меняем местами
+    [tiles[index], tiles[emptyIndex]] = [tiles[emptyIndex], tiles[index]];
+
     moves++;
     if (movesEl) movesEl.textContent = moves;
     render();
 
     if (isSolved()) {
+      solved = true;
       setTimeout(() => {
         alert(`Пазл собран за ${moves} ходов!`);
       }, 200);
     }
   }
 
+  // === Проверка решения ===
   function isSolved() {
     for (let i = 0; i < TOTAL; i++) {
       if (tiles[i] !== i) return false;
@@ -504,10 +520,8 @@ if (scrollTopBtn) {
     return true;
   }
 
-  if (shuffleBtn) {
-    shuffleBtn.addEventListener('click', shuffle);
-  }
+  if (shuffleBtn) shuffleBtn.addEventListener('click', shuffle);
 
-  initPuzzle();
+  // Инициализация — сразу перемешиваем
   shuffle();
 })();
