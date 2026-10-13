@@ -106,44 +106,62 @@
       <div class="grid-cell"><span class="cell-number">6</span></div>
     </div>
 
-    <!-- ===== Игры ===== -->
-    <h2 class="section-title reveal" id="games">Игры</h2>
+<!-- ===== Игры ===== -->
+<h2 class="section-title reveal" id="games">Игры</h2>
 
-    <div class="games-grid">
+<div class="games-grid">
 
-      <!-- Змейка -->
-      <div class="game-block reveal">
-        <h3 class="game-title">Змейка</h3>
-        <div class="snake-wrapper">
-          <div class="snake-canvas-box">
-            <canvas id="snakeCanvas" width="600" height="600"></canvas>
-          </div>
-          <div class="snake-controls">
-            <button class="snake-btn" id="snakeUp">▲</button>
-            <div class="snake-row">
-              <button class="snake-btn" id="snakeLeft">◀</button>
-              <button class="snake-btn" id="snakeDown">▼</button>
-              <button class="snake-btn" id="snakeRight">▶</button>
-            </div>
-          </div>
-          <p class="snake-score">Счёт: <span id="snakeScore">0</span></p>
+  <!-- Змейка -->
+  <div class="game-block reveal">
+    <h3 class="game-title">Змейка</h3>
+    <div class="snake-wrapper">
+      <div class="snake-canvas-box">
+        <canvas id="snakeCanvas" width="600" height="600"></canvas>
+      </div>
+      <div class="snake-controls">
+        <button class="snake-btn" id="snakeUp">▲</button>
+        <div class="snake-row">
+          <button class="snake-btn" id="snakeLeft">◀</button>
+          <button class="snake-btn" id="snakeDown">▼</button>
+          <button class="snake-btn" id="snakeRight">▶</button>
         </div>
       </div>
-
-      <!-- Пазл -->
-      <div class="game-block reveal">
-        <h3 class="game-title">Собери пазл</h3>
-        <div class="puzzle-wrapper">
-          <div class="puzzle-info">
-            <p class="puzzle-score">Ходов: <span id="puzzleMoves">0</span></p>
-          </div>
-          <div class="puzzle-board" id="puzzleBoard"></div>
-          <button class="puzzle-btn" id="puzzleShuffle">Перемешать</button>
-        </div>
-      </div>
-
+      <p class="snake-score">Счёт: <span id="snakeScore">0</span></p>
     </div>
+  </div>
 
+  <!-- Пазл -->
+  <div class="game-block reveal">
+    <h3 class="game-title">Собери пазл</h3>
+    <div class="puzzle-wrapper">
+      <div class="puzzle-info">
+        <p class="puzzle-score">Ходов: <span id="puzzleMoves">0</span></p>
+      </div>
+      <div class="puzzle-board" id="puzzleBoard"></div>
+      <button class="puzzle-btn" id="puzzleShuffle">Перемешать</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== Генератор движухи ===== -->
+<h2 class="section-title reveal" id="generator">Генератор движухи</h2>
+
+<div class="generator-wrapper reveal">
+  <div class="generator-cells">
+    <div class="generator-cell" id="genCell1">
+      <span class="generator-text"></span>
+    </div>
+    <div class="generator-cell" id="genCell2">
+      <span class="generator-text"></span>
+    </div>
+    <div class="generator-cell" id="genCell3">
+      <span class="generator-text"></span>
+    </div>
+  </div>
+  <button class="generator-btn" id="generatorBtn">Сгенерировать</button>
+</div>
+    
     <!-- ===== Соцсети партии ===== -->
     <h2 class="section-title reveal" id="social">Соцсети партии</h2>
 
