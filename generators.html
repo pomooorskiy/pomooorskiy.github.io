@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="nav.generator">Генераторы — ППП</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Heebo:wght@400;700;800;900&family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/generators.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="header-left">
+      <img src="https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4" alt="Логотип" class="site-logo">
+      <h1 class="site-title" data-i18n="site.title">Партия подотчётного парламента</h1>
+    </a>
+
+    <div class="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" aria-label="Сменить язык">
+          <span id="langCurrent">RU</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button class="lang-option" data-lang="ru">Русский</button>
+          <button class="lang-option" data-lang="be">Беларуская</button>
+          <button class="lang-option" data-lang="he">עברית</button>
+          <button class="lang-option" data-lang="ar">العربية</button>
+        </div>
+      </div>
+      <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="side-nav" id="sideNav">
+    <a href="program.html" class="nav-link" data-i18n="nav.program">Программа</a>
+    <a href="news.html" class="nav-link" data-i18n="nav.news">Новости</a>
+    <a href="games.html" class="nav-link" data-i18n="nav.games">Игры</a>
+    <a href="quizzes.html" class="nav-link" data-i18n="nav.quizzes">Викторины и тесты</a>
+    <a href="generators.html" class="nav-link" data-i18n="nav.generator">Генераторы</a>
+    <a href="contact.html" class="nav-link" data-i18n="nav.contactOther">Связь и прочее</a>
+  </nav>
+  <div class="side-nav-overlay" id="sideNavOverlay"></div>
+
+  <main class="main-content">
+
+    <a href="index.html" class="back-link">← <span data-i18n="back">На главную</span></a>
+
+    <h2 class="section-title reveal" data-i18n="nav.generator">Генераторы</h2>
+
+    <!-- Генератор движухи (лозунги) -->
+    <h3 class="section-title section-title-prog reveal" id="generator" data-i18n="section.generator">Генератор движухи</h3>
+
+    <div class="generator-wrapper reveal">
+      <div class="generator-slogan">
+        <span class="generator-slogan-text" id="sloganText">Нажми «Давай!», чтобы получить лозунг</span>
+      </div>
+      <button class="generator-btn" id="generatorBtn" data-i18n="generator.btn">Давай!</button>
+    </div>
+
+    <!-- Генератор обещаний -->
+    <h3 class="section-title section-title-prog reveal" id="promises" data-i18n="section.promises">Генератор обещаний</h3>
+
+    <div class="promise-wrapper reveal">
+      <div class="promise-cell">
+        <span class="promise-text" id="promiseText" data-i18n="promise.empty">Нажмите кнопку, чтобы получить обещание</span>
+      </div>
+      <button class="generator-btn" id="promiseBtn" data-i18n="promise.btn">Обещать</button>
+    </div>
+
+    <!-- Генератор гороскопа -->
+    <h3 class="section-title section-title-prog reveal" id="horoscope" data-i18n="section.horoscope">Генератор гороскопа</h3>
+
+    <div class="horoscope-wrapper reveal">
+      <div class="horoscope-signs" id="horoscopeSigns"></div>
+      <div class="horoscope-cell">
+        <span class="horoscope-text" id="horoscopeText" data-i18n="horoscope.empty">Выберите знак зодиака и нажмите «Давай!»</span>
+      </div>
+      <button class="generator-btn" id="horoscopeBtn" data-i18n="generator.btn">Давай!</button>
+    </div>
+
+    <!-- Генератор партбилетов -->
+    <h3 class="section-title section-title-prog reveal" id="partbilet" data-i18n="section.partbilet">Генератор партбилетов</h3>
+
+    <div class="partbilet-wrapper reveal">
+      <div class="partbilet-form">
+        <input type="text" id="partbiletName" class="partbilet-input" placeholder="Введите ФИО" data-i18n-placeholder="partbilet.namePlaceholder" required>
+        <label class="partbilet-file-label">
+          <span data-i18n="partbilet.uploadPhoto">Загрузить фото</span>
+          <input type="file" id="partbiletPhoto" accept="image/*" class="partbilet-file-input">
+        </label>
+        <button class="generator-btn" id="partbiletBtn" data-i18n="generator.btn">Давай!</button>
+      </div>
+
+      <div class="partbilet-card" id="partbiletCard" style="display: none;">
+        <div class="partbilet-header">
+          <img src="https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4" alt="Логотип" class="partbilet-logo">
+          <p class="partbilet-title" data-i18n="partbilet.title">Партийный билет</p>
+        </div>
+
+        <div class="partbilet-body">
+          <div class="partbilet-photo-box">
+            <img id="partbiletPhotoPreview" class="partbilet-photo" alt="Фото">
+          </div>
+          <div class="partbilet-info">
+            <p class="partbilet-fio" id="partbiletFio">—</p>
+            <p class="partbilet-role" data-i18n="partbilet.role">Участник партии</p>
+            <p class="partbilet-number">№ <span id="partbiletNumber">ППП-2026-0000</span></p>
+            <p class="partbilet-date"><span data-i18n="partbilet.issued">Выдан</span>: <span id="partbiletDate">—</span></p>
+          </div>
+        </div>
+
+        <div class="partbilet-footer">
+          <div class="partbilet-stamp">
+            <img src="https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4" alt="Печать" class="partbilet-stamp-img">
+          </div>
+        </div>
+      </div>
+
+      <button class="generator-btn" id="partbiletDownload" data-i18n="partbilet.download" style="display: none;">Скачать билет</button>
+    </div>
+
+  </main>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Наверх">▲</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="js/translations.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/generators.js"></script>
+</body>
+</html>

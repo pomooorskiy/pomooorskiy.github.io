@@ -1,0 +1,319 @@
+/* ================= 3D-КАРУСЕЛЬ НОВОСТЕЙ ================= */
+.news-3d-wrapper {
+  width: 100%;
+  max-width: 1100px;
+  margin: 10px auto 0 auto;
+  position: relative;
+}
+
+.news-3d-stage {
+  width: 100%;
+  height: 520px;
+  perspective: 1800px;
+  perspective-origin: 50% 50%;
+  position: relative;
+  overflow: visible;
+}
+
+.news-3d-track {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
+}
+
+/* Карточка позиционируется абсолютно по центру сцены */
+.news-card {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  max-width: 800px;
+  box-sizing: border-box;
+  padding: 40px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.7s cubic-bezier(0.25, 0.8, 0.25, 1),
+    opacity 0.7s ease,
+    filter 0.7s ease;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+/* Позиционирование карточек по кругу через inline-transform в JS */
+.news-card.active {
+  opacity: 1;
+  filter: blur(0) brightness(1);
+  z-index: 10;
+}
+
+.news-card.side-left,
+.news-card.side-right {
+  opacity: 0.55;
+  filter: blur(3px) brightness(0.75);
+  z-index: 5;
+  pointer-events: none;
+}
+
+.news-card.side-far {
+  opacity: 0.25;
+  filter: blur(6px) brightness(0.5);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.news-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  color: var(--accent);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.news-card-date {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--accent);
+  opacity: 0.7;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.news-card-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Управление */
+.news-3d-controls {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.news-arrow {
+  width: 52px;
+  height: 52px;
+  background: var(--accent);
+  color: #ffffff;
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.news-arrow:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+  transform: scale(1.08);
+}
+
+.news-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.news-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--border-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  padding: 0;
+}
+
+.news-dot.active {
+  background: var(--accent);
+  transform: scale(1.2);
+}
+
+/* ================= ДНЕВНИК КАНЦЛЕРА ================= */
+.diary-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  perspective: 1600px;
+}
+
+.diary-book {
+  width: 100%;
+  max-width: 600px;
+  aspect-ratio: 3 / 4;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Закрытая книга — обложка */
+.diary-book.closed .diary-cover {
+  opacity: 1;
+  pointer-events: auto;
+  transform: rotateY(0deg);
+}
+
+.diary-book.closed .diary-pages {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Обложка */
+.diary-cover {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+  border-radius: 12px 20px 20px 12px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.4),
+    inset 0 0 0 4px rgba(255, 255, 255, 0.15),
+    inset 0 0 0 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.4s ease;
+  transform-origin: left center;
+  z-index: 10;
+}
+
+.diary-cover:hover {
+  transform: rotateY(-8deg);
+}
+
+.diary-cover::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 20px;
+  bottom: 20px;
+  width: 4px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+}
+
+.diary-cover-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  padding: 0 40px;
+  line-height: 1.4;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* Страницы */
+.diary-pages {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border-radius: 4px 12px 12px 4px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  overflow: hidden;
+}
+
+.diary-page {
+  position: absolute;
+  inset: 0;
+  padding: 40px 30px;
+  box-sizing: border-box;
+  background: #fdfdf7;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.7s cubic-bezier(0.3, 0.8, 0.3, 1), opacity 0.5s ease;
+  backface-visibility: hidden;
+  transform-origin: left center;
+  cursor: pointer;
+}
+
+.diary-page::before {
+  content: '';
+  position: absolute;
+  left: 30px;
+  top: 40px;
+  bottom: 40px;
+  width: 1px;
+  background: rgba(87, 99, 148, 0.15);
+}
+
+.diary-page-number {
+  position: absolute;
+  bottom: 14px;
+  right: 20px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: rgba(87, 99, 148, 0.5);
+  letter-spacing: 1px;
+}
+
+.diary-page-content {
+  flex: 1;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #555;
+  padding-left: 20px;
+}
+
+.diary-page.flipped {
+  transform: rotateY(-180deg);
+  opacity: 0;
+}
+
+.diary-page.active {
+  z-index: 5;
+}
+
+/* Индикатор листания — маленькая подсказка */
+.diary-hint {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  color: var(--accent);
+  opacity: 0.6;
+  letter-spacing: 1px;
+  text-align: center;
+  pointer-events: none;
+}

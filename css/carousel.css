@@ -1,0 +1,185 @@
+/* ================= КАРУСЕЛЬ ФОТО (3D) ================= */
+.coverflow-container {
+  width: 100%;
+  height: 620px;
+  perspective: 2000px;
+  perspective-origin: 50% 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.coverflow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.cover-card {
+  position: absolute;
+  width: 1000px;
+  height: 1414px;
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.6s ease,
+    filter 0.6s ease;
+  cursor: pointer;
+  border-radius: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+  opacity: 0;
+  transform: translateX(0) translateZ(-400px) scale(0.1) rotateY(0deg);
+  z-index: 0;
+  background: #f0f0f0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.cover-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  display: block;
+}
+
+/* Активная карточка — впереди, без наклона */
+.cover-card.active {
+  opacity: 1;
+  transform: translateX(0) translateZ(0) scale(0.33) rotateY(0deg);
+  z-index: 10;
+  box-shadow:
+    0 30px 70px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+  filter: blur(0) brightness(1);
+}
+
+/* Ближние боковые — сильнее наклон, глубже в 3D */
+.cover-card.prev-1 {
+  opacity: 0.85;
+  transform: translateX(-340px) translateZ(-120px) scale(0.30) rotateY(45deg);
+  z-index: 9;
+  filter: blur(2px) brightness(0.85);
+}
+
+.cover-card.prev-2 {
+  opacity: 0.5;
+  transform: translateX(-580px) translateZ(-260px) scale(0.24) rotateY(58deg);
+  z-index: 8;
+  filter: blur(4px) brightness(0.7);
+}
+
+.cover-card.next-1 {
+  opacity: 0.85;
+  transform: translateX(340px) translateZ(-120px) scale(0.30) rotateY(-45deg);
+  z-index: 9;
+  filter: blur(2px) brightness(0.85);
+}
+
+.cover-card.next-2 {
+  opacity: 0.5;
+  transform: translateX(580px) translateZ(-260px) scale(0.24) rotateY(-58deg);
+  z-index: 8;
+  filter: blur(4px) brightness(0.7);
+}
+
+/* ================= КНОПКИ НАВИГАЦИИ ================= */
+.controls {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  z-index: 20;
+}
+
+.nav-btn {
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  color: #ffffff;
+  width: 50px;
+  height: 50px;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+  transform: scale(1.08);
+}
+
+/* ================= ПЛЕЕР ================= */
+.player-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px 0;
+}
+
+#my-player {
+  width: 100%;
+  max-width: 700px;
+}
+
+/* ================= МЕНЮ РАЗДЕЛОВ (под гимном) ================= */
+.sections-menu {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 900px;
+  margin: 10px auto 0 auto;
+}
+
+.section-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 18px 12px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  text-decoration: none;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  min-height: 100px;
+}
+
+.section-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px var(--shadow-color);
+  border-color: var(--accent);
+}
+
+.section-card-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.section-card-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+}

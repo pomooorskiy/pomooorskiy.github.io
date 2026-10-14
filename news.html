@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="nav.news">Новости — ППП</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Heebo:wght@400;700;800;900&family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/news.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="header-left">
+      <img src="https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4" alt="Логотип" class="site-logo">
+      <h1 class="site-title" data-i18n="site.title">Партия подотчётного парламента</h1>
+    </a>
+
+    <div class="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" aria-label="Сменить язык">
+          <span id="langCurrent">RU</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button class="lang-option" data-lang="ru">Русский</button>
+          <button class="lang-option" data-lang="be">Беларуская</button>
+          <button class="lang-option" data-lang="he">עברית</button>
+          <button class="lang-option" data-lang="ar">العربية</button>
+        </div>
+      </div>
+      <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="side-nav" id="sideNav">
+    <a href="program.html" class="nav-link" data-i18n="nav.program">Программа</a>
+    <a href="news.html" class="nav-link" data-i18n="nav.news">Новости</a>
+    <a href="games.html" class="nav-link" data-i18n="nav.games">Игры</a>
+    <a href="quizzes.html" class="nav-link" data-i18n="nav.quizzes">Викторины и тесты</a>
+    <a href="generators.html" class="nav-link" data-i18n="nav.generator">Генераторы</a>
+    <a href="contact.html" class="nav-link" data-i18n="nav.contactOther">Связь и прочее</a>
+  </nav>
+  <div class="side-nav-overlay" id="sideNavOverlay"></div>
+
+  <main class="main-content">
+
+    <a href="index.html" class="back-link">← <span data-i18n="back">На главную</span></a>
+
+    <h2 class="section-title reveal" data-i18n="section.news">Новости</h2>
+
+    <!-- 3D-карусель новостей -->
+    <div class="news-3d-wrapper reveal">
+      <div class="news-3d-stage" id="newsStage">
+        <div class="news-3d-track" id="newsTrack">
+
+          <article class="news-card" data-index="0">
+            <h3 class="news-card-title">⚠️ Внимание! Была совершена попытка покушения на Савелия.</h3>
+            <p class="news-card-date">15.09.2026</p>
+            <p class="news-card-text">15.11.2026 в 17:03 Александр Ровнер планирует совершить покушение на канцлера партии «ППП» Решина Савелия. Его план, «Кровавое чаепитие Александра», был перехвачен контрразведкой партии. Сегодня, 15.09.2026 ~ в 15:35 было совершено покушение, с целью помешать Савелию избраться. После неудачного манёвра Александр сбежал. Остерегайтесь этого человека, возможно он где-то рядом. Берегите себя, родных и канцлера.</p>
+          </article>
+
+          <article class="news-card" data-index="1">
+            <h3 class="news-card-title">Савелий Решин награждён орденом убер-генерал-адмирала в третьей степени</h3>
+            <p class="news-card-date">13.10.2026</p>
+            <p class="news-card-text">13.10.2026 совет партии наградил нашего великого кандидата в президенты гимназии Савелия Решина очень важной наградой — орденом убер-генерал-адмирала в третьей степени. Орден был выдан за великие свершения и участие в жизни партии.</p>
+          </article>
+
+          <article class="news-card" data-index="2">
+            <h3 class="news-card-title">АдГ — ⚡ВСЁ⚡</h3>
+            <p class="news-card-date">09.10.2026</p>
+            <p class="news-card-text">Сегодня стал очевидным тот факт, что партия «Альтернатива для гимназии» не сможет одержать победу на выборах. В своей речи участникам партии Савелий Решин заявил, что победа ППП на выборах неизбежна, но несмотря на это прекращать агитационную деятельность нельзя.</p>
+          </article>
+
+          <article class="news-card" data-index="3">
+            <h3 class="news-card-title">Александр возвращается в партию</h3>
+            <p class="news-card-date">08.10.2026</p>
+            <p class="news-card-text">Неожиданно для всех, Александр Ровнер, ранее считавшийся предателем, вернулся в ППП. Оказалось, что это было многоходовочкой для разрушения соперничащих с ППП партий, что и было выполнено. Александр совершил героический поступок, и он будет навеки увековечен в истории партии.</p>
+          </article>
+
+          <article class="news-card" data-index="4">
+            <h3 class="news-card-title">❗❗❗ Коалиция ППП и АдГ? Возможно ли это?</h3>
+            <p class="news-card-date">09.10.2026</p>
+            <p class="news-card-text">9 октября были проведены переговоры глав Партии подотчётного парламента и Альтернативы для гимназии. На длившихся продолжительное время переговорах были обговорены варианты реформ парламента и возможное сотрудничество партий. Савелий Решин гордо заявил, что ППП... [ЧИТАТЬ ДАЛЕЕ]</p>
+          </article>
+
+          <article class="news-card" data-index="5">
+            <h3 class="news-card-title">🎵 Трек в честь ППП?</h3>
+            <p class="news-card-date">07.10.2026</p>
+            <p class="news-card-text">Благодаря сотрудничеству комитета по пропаганде ППП в сотрудничестве с Филиппом Залывским (@Filzzznet) был создан агитационный трек в стиле «рэп». Это совершенно новый подход к агитации, не применявшийся никакой из партий ранее. Глава партии Савелий Решин заявил, что «такой музыки он никогда не слышал ещё».</p>
+          </article>
+
+        </div>
+      </div>
+
+      <div class="news-3d-controls">
+        <button class="news-arrow" id="newsPrev" aria-label="Назад">❮</button>
+        <button class="news-arrow" id="newsNext" aria-label="Вперёд">❯</button>
+      </div>
+
+      <div class="news-dots" id="newsDots"></div>
+    </div>
+
+    <!-- Дневник канцлера -->
+    <h2 class="section-title section-title-prog reveal" data-i18n="section.diary">Дневник канцлера</h2>
+
+    <div class="diary-wrapper reveal">
+      <div class="diary-book closed" id="diaryBook">
+        <div class="diary-cover" id="diaryCover">
+          <p class="diary-cover-title">Дневник канцлера</p>
+        </div>
+        <div class="diary-pages" id="diaryPages">
+          <!-- Страницы генерируются в JS -->
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Наверх">▲</button>
+
+  <script src="js/translations.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/news.js"></script>
+</body>
+</html>

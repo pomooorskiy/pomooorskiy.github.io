@@ -1,0 +1,47 @@
+/* ================= ПРОГРАММА ПАРТИИ ================= */
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.grid-cell {
+  position: relative;
+  min-height: 320px;
+  padding: 60px 30px 30px 30px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.grid-cell:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px var(--shadow-color);
+}
+
+.cell-number {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.cell-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-color);
+  margin: 0;
+}

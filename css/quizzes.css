@@ -1,0 +1,296 @@
+/* ================= ВИКТОРИНЫ И ТЕСТЫ ================= */
+.quizzes-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  margin-top: 10px;
+}
+
+.quiz-block {
+  padding: 30px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.quiz-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0.8;
+  margin: 0;
+  text-align: center;
+  max-width: 600px;
+  line-height: 1.5;
+}
+
+/* ================= СОБЕРИ АББРЕВИАТУРУ ================= */
+.abbr-target {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 80px;
+  padding: 16px;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  border: 2px dashed var(--border-color);
+  border-radius: 14px;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  justify-content: center;
+  align-items: center;
+}
+
+.abbr-target.drag-over {
+  border-color: var(--accent);
+  background: var(--bg-glass-strong);
+}
+
+.abbr-target.complete {
+  border-style: solid;
+  border-color: #27ae60;
+  animation: abbr-success 0.6s ease;
+}
+
+@keyframes abbr-success {
+  0%   { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.5); }
+  50%  { box-shadow: 0 0 0 12px rgba(39, 174, 96, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+}
+
+.abbr-pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-height: 80px;
+  padding: 16px;
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: 14px;
+  justify-content: center;
+  align-items: center;
+}
+
+.abbr-tile {
+  padding: 12px 18px;
+  background: var(--accent);
+  color: #ffffff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  border-radius: 10px;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  touch-action: none;
+}
+
+.abbr-tile:active { cursor: grabbing; }
+
+.abbr-tile.dragging {
+  transform: scale(1.08) rotate(-2deg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+  z-index: 9999;
+}
+
+.abbr-tile.placed {
+  background: var(--accent-dark);
+  cursor: pointer;
+}
+
+.abbr-tile.placed:hover { background: #e74c3c; }
+
+.abbr-tile.wrong {
+  animation: abbr-shake 0.4s ease;
+  background: #e74c3c;
+}
+
+@keyframes abbr-shake {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+.abbr-tile.snap {
+  animation: abbr-snap 0.3s ease;
+}
+
+@keyframes abbr-snap {
+  0%   { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.abbr-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.abbr-status {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--accent);
+  text-align: center;
+  margin: 0;
+  min-height: 22px;
+}
+
+/* ================= КТО ТЫ ИЗ ППП ================= */
+.who-quiz {
+  width: 100%;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.who-question {
+  width: 100%;
+  padding: 24px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: who-appear 0.5s ease;
+}
+
+@keyframes who-appear {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.who-question-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.who-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.who-answer {
+  padding: 14px 20px;
+  background: var(--bg-glass-strong);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text-color);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  line-height: 1.4;
+}
+
+.who-answer:hover {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+  transform: translateX(4px);
+}
+
+.who-answer.selected {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.who-progress {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--accent);
+  opacity: 0.7;
+  margin: 0;
+  text-align: center;
+}
+
+.who-result {
+  width: 100%;
+  padding: 30px;
+  background: var(--bg-glass);
+  border: 2px solid var(--accent);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  animation: who-appear 0.6s ease;
+}
+
+.who-result-image {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 16px;
+  box-shadow: 0 12px 35px var(--shadow-color);
+  display: block;
+}
+
+.who-result-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--accent);
+  margin: 0;
+}
+
+.who-result-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.who-restart {
+  padding: 14px 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.who-restart:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+}

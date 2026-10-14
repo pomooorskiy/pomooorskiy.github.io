@@ -1,0 +1,233 @@
+/* ================= БЛОК ОРБИТЫ (внизу главной) ================= */
+.orbit-section {
+  width: 100%;
+  min-height: 360px;
+  padding: 60px 20px;
+  box-sizing: border-box;
+  background: var(--bg-glass-strong);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Надписи слева и справа */
+.orbit-left,
+.orbit-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  min-width: 180px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.orbit-left span,
+.orbit-right span {
+  display: block;
+  font-size: 20px;
+}
+
+.orbit-left span:nth-child(1),
+.orbit-right span:nth-child(1) { font-size: 22px; }
+.orbit-left span:nth-child(2),
+.orbit-right span:nth-child(2) { font-size: 20px; }
+.orbit-left span:nth-child(3),
+.orbit-right span:nth-child(3) { font-size: 18px; }
+
+/* Контейнер круга */
+.orbit-container {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Лого в центре круга */
+.orbit-center-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px;
+  height: 110px;
+  object-fit: contain;
+  z-index: 2;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 20px rgba(87, 99, 148, 0.35));
+}
+
+/* Круг, по которому летает иконка */
+.orbit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  animation: orbit-rotate 10s linear infinite;
+  transform-origin: center;
+}
+
+/* Летающая иконка */
+.orbit-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  margin-left: -32px;
+  margin-top: -32px;
+  animation: orbit-counter-rotate 10s linear infinite;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.25));
+}
+
+/* Вращение круга */
+@keyframes orbit-rotate {
+  0%   { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Контр-вращение иконки, чтобы она не переворачивалась */
+@keyframes orbit-counter-rotate {
+  0%   { transform: translateX(120px) rotate(0deg); }
+  100% { transform: translateX(120px) rotate(-360deg); }
+}
+
+/* ================= ПУНКТИРНЫЙ КРУГ (опционально, как подсказка траектории) ================= */
+.orbit-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 240px;
+  height: 240px;
+  margin-left: -120px;
+  margin-top: -120px;
+  border: 2px dashed rgba(87, 99, 148, 0.15);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ================= АДАПТИВ ================= */
+@media (max-width: 900px) {
+  .orbit-section {
+    gap: 24px;
+  }
+
+  .orbit-left,
+  .orbit-right {
+    min-width: 130px;
+  }
+
+  .orbit-left span,
+  .orbit-right span { font-size: 16px; }
+  .orbit-left span:nth-child(1),
+  .orbit-right span:nth-child(1) { font-size: 18px; }
+  .orbit-left span:nth-child(2),
+  .orbit-right span:nth-child(2) { font-size: 16px; }
+  .orbit-left span:nth-child(3),
+  .orbit-right span:nth-child(3) { font-size: 14px; }
+
+  .orbit-container {
+    width: 200px;
+    height: 200px;
+  }
+
+  .orbit-center-logo {
+    width: 90px;
+    height: 90px;
+  }
+
+  .orbit-icon {
+    width: 52px;
+    height: 52px;
+    margin-left: -26px;
+    margin-top: -26px;
+  }
+
+  @keyframes orbit-counter-rotate {
+    0%   { transform: translateX(100px) rotate(0deg); }
+    100% { transform: translateX(100px) rotate(-360deg); }
+  }
+
+  .orbit-container::before {
+    width: 200px;
+    height: 200px;
+    margin-left: -100px;
+    margin-top: -100px;
+  }
+}
+
+@media (max-width: 700px) {
+  .orbit-section {
+    flex-direction: column;
+    gap: 16px;
+    padding: 40px 15px;
+    min-height: auto;
+  }
+
+  .orbit-left,
+  .orbit-right {
+    flex-direction: row;
+    gap: 8px;
+    min-width: auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .orbit-left span,
+  .orbit-right span { font-size: 14px; }
+  .orbit-left span:nth-child(1),
+  .orbit-right span:nth-child(1) { font-size: 15px; }
+  .orbit-left span:nth-child(2),
+  .orbit-right span:nth-child(2) { font-size: 14px; }
+  .orbit-left span:nth-child(3),
+  .orbit-right span:nth-child(3) { font-size: 13px; }
+
+  .orbit-container {
+    width: 170px;
+    height: 170px;
+  }
+
+  .orbit-center-logo {
+    width: 75px;
+    height: 75px;
+  }
+
+  .orbit-icon {
+    width: 44px;
+    height: 44px;
+    margin-left: -22px;
+    margin-top: -22px;
+  }
+
+  @keyframes orbit-counter-rotate {
+    0%   { transform: translateX(85px) rotate(0deg); }
+    100% { transform: translateX(85px) rotate(-360deg); }
+  }
+
+  .orbit-container::before {
+    width: 170px;
+    height: 170px;
+    margin-left: -85px;
+    margin-top: -85px;
+  }
+}

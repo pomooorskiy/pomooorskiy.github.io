@@ -1,0 +1,214 @@
+/* ================= АДАПТИВ ================= */
+
+/* ===== Планшеты (1100px) ===== */
+@media (max-width: 1100px) {
+  .site-title { font-size: 15px; }
+
+  .cover-card.active { transform: translateX(0) translateZ(0) scale(0.30) rotateY(0deg); }
+  .cover-card.prev-1 { transform: translateX(-300px) translateZ(-100px) scale(0.27) rotateY(42deg); }
+  .cover-card.next-1 { transform: translateX(300px) translateZ(-100px) scale(0.27) rotateY(-42deg); }
+  .cover-card.prev-2 { transform: translateX(-500px) translateZ(-220px) scale(0.22) rotateY(55deg); }
+  .cover-card.next-2 { transform: translateX(500px) translateZ(-220px) scale(0.22) rotateY(-55deg); }
+}
+
+/* ===== Планшеты и небольшие экраны (900px) ===== */
+@media (max-width: 900px) {
+  .site-title { font-size: 13px; max-width: 260px; }
+  .site-logo { height: 45px; width: 45px; }
+
+  .games-grid { grid-template-columns: 1fr; }
+  .grid-section { grid-template-columns: 1fr; }
+  .sections-menu { grid-template-columns: repeat(2, 1fr); }
+
+  .horoscope-signs { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ===== Телефоны (700px) ===== */
+@media (max-width: 700px) {
+
+  /* Шапка */
+  .site-header {
+    height: 70px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+  .site-logo { height: 40px; width: 40px; }
+  .site-title {
+    font-size: 11px;
+    letter-spacing: 0.4px;
+    max-width: 160px;
+    line-height: 1.2;
+  }
+  .theme-toggle { width: 40px; height: 40px; font-size: 17px; }
+  .lang-btn { height: 40px; min-width: 50px; font-size: 12px; padding: 0 10px; }
+  .burger-btn { width: 40px; height: 40px; }
+  .burger-btn span { width: 18px; }
+
+  /* Контент */
+  .main-content { padding: 90px 15px 60px 15px; }
+  .section-title { font-size: 20px; margin: 35px 0 18px 0; }
+  .section-title-prog { margin-top: 45px; }
+
+  /* Карусель фото (3D) */
+  .coverflow-container { height: 440px; perspective: 1200px; }
+  .cover-card.active { transform: translateX(0) translateZ(0) scale(0.19) rotateY(0deg); }
+  .cover-card.prev-1 { transform: translateX(-190px) translateZ(-80px) scale(0.165) rotateY(38deg); }
+  .cover-card.next-1 { transform: translateX(190px) translateZ(-80px) scale(0.165) rotateY(-38deg); }
+  .cover-card.prev-2,
+  .cover-card.next-2 { opacity: 0; pointer-events: none; }
+
+  .nav-btn { width: 44px; height: 44px; font-size: 18px; }
+
+  #my-player { max-width: 100%; }
+
+  /* Плашки разделов */
+  .sections-menu { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .section-card { min-height: 80px; padding: 12px 8px; border-radius: 12px; gap: 5px; }
+  .section-card-icon { font-size: 22px; }
+  .section-card-title { font-size: 10px; letter-spacing: 0.4px; }
+
+  /* Программа */
+  .grid-cell { min-height: 240px; padding: 50px 20px 20px 20px; border-radius: 12px; }
+  .cell-number { font-size: 24px; top: 14px; left: 16px; }
+  .cell-text { font-size: 13px; }
+
+  /* ===== Новости 3D ===== */
+  .news-3d-stage { height: 460px; }
+  .news-card {
+    padding: 22px;
+    max-width: 100%;
+    border-radius: 16px;
+    gap: 12px;
+  }
+  .news-card-title { font-size: 18px; }
+  .news-card-date { font-size: 11px; }
+  .news-card-text { font-size: 13px; line-height: 1.5; }
+  .news-arrow { width: 44px; height: 44px; font-size: 17px; }
+  .news-3d-controls { gap: 14px; margin-top: 14px; }
+  .news-dot { width: 10px; height: 10px; }
+
+  /* ===== Дневник канцлера ===== */
+  .diary-book { max-width: 100%; border-radius: 8px 14px 14px 8px; }
+  .diary-cover-title { font-size: 20px; padding: 0 25px; letter-spacing: 1.5px; }
+  .diary-page { padding: 25px 18px; }
+  .diary-page::before { left: 18px; top: 25px; bottom: 25px; }
+  .diary-page-content { padding-left: 12px; font-size: 12px; }
+  .diary-page-number { bottom: 10px; right: 14px; font-size: 10px; }
+
+  /* ===== Игры ===== */
+  .game-block { padding: 20px; border-radius: 12px; }
+  .game-title { font-size: 18px; }
+  .snake-btn { width: 44px; height: 44px; font-size: 18px; }
+
+  .g2048-tile { font-size: 16px; }
+  .g2048-tile[data-v="128"],
+  .g2048-tile[data-v="256"],
+  .g2048-tile[data-v="512"] { font-size: 14px; }
+  .g2048-tile[data-v="1024"],
+  .g2048-tile[data-v="2048"] { font-size: 12px; }
+
+  .minesweeper-info { font-size: 14px; gap: 8px; }
+  .minesweeper-info > span { padding: 6px 10px; min-width: 55px; }
+  .mine-cell { font-size: 9px; }
+  .minesweeper-board { max-width: 100%; gap: 1px; padding: 4px; }
+
+  /* ===== Викторины ===== */
+  .quiz-block { padding: 20px; border-radius: 12px; }
+  .abbr-tile { padding: 10px 14px; font-size: 13px; }
+  .abbr-target,
+  .abbr-pool { padding: 12px; gap: 6px; }
+
+  .who-question { padding: 18px; }
+  .who-question-title { font-size: 16px; }
+  .who-answer { padding: 12px 16px; font-size: 14px; }
+  .who-result { padding: 20px; }
+  .who-result-title { font-size: 18px; }
+  .who-result-text { font-size: 14px; }
+
+  /* ===== Генераторы ===== */
+  .generator-slogan,
+  .promise-cell,
+  .horoscope-cell {
+    min-height: 110px;
+    padding: 20px;
+    border-radius: 12px;
+  }
+  .generator-slogan-text { font-size: 18px; }
+  .promise-text { font-size: 16px; }
+  .horoscope-text { font-size: 15px; }
+  .generator-btn { padding: 14px 40px; font-size: 14px; }
+
+  .horoscope-signs { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .horoscope-sign-btn { padding: 10px 4px; font-size: 11px; }
+
+  /* ===== Партбилет ===== */
+  .partbilet-input { padding: 14px 16px; font-size: 14px; }
+  .partbilet-file-label { padding: 12px 16px; font-size: 13px; }
+
+  /* ===== Связь ===== */
+  .contact-section { padding: 25px; border-radius: 16px; }
+  .contact-btn { padding: 14px 40px; font-size: 14px; }
+  .contact-input { min-height: 130px; padding: 16px; font-size: 14px; }
+
+  .social-links-row { gap: 10px; }
+  .social-link { flex: 1 1 140px; padding: 12px 16px; font-size: 14px; }
+  .social-link .social-icon { width: 34px; height: 34px; font-size: 18px; }
+
+  /* ===== Аккордеоны ===== */
+  .accordion summary { padding: 18px 20px; font-size: 16px; }
+  .accordion-list { padding: 0 20px 20px 20px; font-size: 14px; }
+  .member-name { font-size: 18px; }
+
+  /* ===== Счётчик ===== */
+  .counter-section { padding: 40px 15px; }
+  .counter-label { font-size: 16px; }
+  .counter-value { font-size: clamp(36px, 12vw, 72px); }
+  .counter-unit { font-size: 16px; }
+
+  /* ===== Кнопка наверх ===== */
+  .scroll-top {
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    font-size: 18px;
+  }
+  body[dir="rtl"] .scroll-top { right: auto; left: 20px; }
+
+  /* ===== Попап ===== */
+  .popup-box {
+    max-width: 100%;
+    width: 100%;
+    max-height: 95vh;
+    padding: 8px;
+    border-radius: 16px;
+  }
+  .popup-image { max-height: calc(95vh - 16px); border-radius: 10px; }
+  .popup-close { top: -10px; right: -10px; width: 36px; height: 36px; font-size: 16px; }
+
+  /* ===== Ссылка «На главную» ===== */
+  .back-link { font-size: 12px; padding: 8px 14px; }
+}
+
+/* ===== Очень узкие экраны (480px) ===== */
+@media (max-width: 480px) {
+  .site-title { font-size: 10px; max-width: 130px; }
+
+  .coverflow-container { height: 400px; }
+  .cover-card.active { transform: translateX(0) translateZ(0) scale(0.17) rotateY(0deg); }
+  .cover-card.prev-1 { transform: translateX(-160px) translateZ(-70px) scale(0.145) rotateY(35deg); }
+  .cover-card.next-1 { transform: translateX(160px) translateZ(-70px) scale(0.145) rotateY(-35deg); }
+
+  .section-card { min-height: 70px; padding: 10px 6px; }
+  .section-card-icon { font-size: 20px; }
+  .section-card-title { font-size: 9px; }
+
+  .news-3d-stage { height: 420px; }
+  .news-card { padding: 18px; }
+  .news-card-title { font-size: 16px; }
+
+  .horoscope-signs { grid-template-columns: repeat(2, 1fr); }
+  .horoscope-sign-btn { font-size: 10px; }
+
+  .generator-btn { padding: 12px 30px; font-size: 13px; }
+}

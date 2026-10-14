@@ -1,0 +1,441 @@
+/* ================= ОБЩЕЕ ДЛЯ ГЕНЕРАТОРОВ ================= */
+.generator-wrapper,
+.promise-wrapper,
+.horoscope-wrapper,
+.partbilet-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.generator-btn {
+  padding: 16px 60px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 20px var(--shadow-color);
+}
+
+.generator-btn:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ================= ГЕНЕРАТОР ДВИЖУХИ (ЛОЗУНГИ) ================= */
+.generator-slogan {
+  width: 100%;
+  max-width: 900px;
+  min-height: 140px;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.generator-slogan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px var(--shadow-color);
+}
+
+.generator-slogan-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 26px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-align: center;
+  line-height: 1.35;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.generator-slogan-text.show { opacity: 1; transform: translateY(0); }
+
+/* ================= ГЕНЕРАТОР ОБЕЩАНИЙ ================= */
+.promise-cell {
+  width: 100%;
+  max-width: 900px;
+  min-height: 140px;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.promise-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px var(--shadow-color);
+}
+
+.promise-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  text-align: center;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.promise-text.show { opacity: 1; transform: translateY(0); }
+
+/* ================= ГЕНЕРАТОР ГОРОСКОПА ================= */
+.horoscope-signs {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.horoscope-sign-btn {
+  padding: 12px 6px;
+  background: var(--bg-glass);
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.horoscope-sign-btn:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.horoscope-sign-btn.active {
+  background: var(--accent);
+  color: #ffffff;
+  border-color: var(--accent);
+}
+
+.horoscope-cell {
+  width: 100%;
+  max-width: 900px;
+  min-height: 140px;
+  padding: 30px 40px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.horoscope-cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px var(--shadow-color);
+}
+
+.horoscope-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  text-align: center;
+  line-height: 1.45;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.horoscope-text.show { opacity: 1; transform: translateY(0); }
+
+/* ================= ГЕНЕРАТОР ПАРТБИЛЕТОВ ================= */
+.partbilet-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+  max-width: 500px;
+  align-items: stretch;
+}
+
+.partbilet-input {
+  width: 100%;
+  padding: 16px 20px;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-color);
+  background: var(--bg-glass);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.partbilet-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(87, 99, 148, 0.15);
+}
+
+.partbilet-input::placeholder {
+  color: rgba(87, 99, 148, 0.5);
+  font-weight: 600;
+}
+
+.partbilet-file-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  background: var(--bg-glass);
+  border: 2px dashed var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--accent);
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.partbilet-file-label:hover {
+  border-color: var(--accent);
+  background: var(--bg-glass-strong);
+}
+
+.partbilet-file-input {
+  display: none;
+}
+
+/* Карточка билета */
+.partbilet-card {
+  width: 100%;
+  max-width: 500px;
+  padding: 24px;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f5f7fc 0%, #e8ecf7 100%);
+  border: 3px solid var(--accent);
+  border-radius: 20px;
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.25),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: relative;
+  overflow: hidden;
+}
+
+.partbilet-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+}
+
+.partbilet-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(87, 99, 148, 0.2);
+}
+
+.partbilet-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+}
+
+.partbilet-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.partbilet-body {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.partbilet-photo-box {
+  width: 110px;
+  height: 130px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.partbilet-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.partbilet-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.partbilet-fio {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: #1a1d2e;
+  margin: 0;
+  line-height: 1.25;
+  word-break: break-word;
+}
+
+.partbilet-role {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.partbilet-number {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  color: #1a1d2e;
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.partbilet-date {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: #555;
+  margin: 0;
+}
+
+.partbilet-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.partbilet-stamp {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px dashed var(--accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  box-sizing: border-box;
+  background: rgba(87, 99, 148, 0.08);
+  opacity: 0.9;
+  transform: rotate(-12deg);
+}
+
+.partbilet-stamp-img {
+  width: 80%;
+  height: 80%;
+  object-fit: contain;
+  opacity: 0.75;
+}
+
+/* Адаптив для билета */
+@media (max-width: 700px) {
+  .partbilet-card {
+    max-width: 100%;
+    padding: 18px;
+  }
+
+  .partbilet-body {
+    gap: 12px;
+  }
+
+  .partbilet-photo-box {
+    width: 90px;
+    height: 110px;
+  }
+
+  .partbilet-fio { font-size: 16px; }
+  .partbilet-role { font-size: 11px; }
+  .partbilet-number { font-size: 12px; }
+  .partbilet-date { font-size: 11px; }
+
+  .partbilet-stamp {
+    width: 80px;
+    height: 80px;
+  }
+
+  .partbilet-header {
+    gap: 10px;
+  }
+
+  .partbilet-logo {
+    width: 40px;
+    height: 40px;
+  }
+
+  .partbilet-title {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+}

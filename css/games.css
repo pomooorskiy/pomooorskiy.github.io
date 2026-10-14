@@ -1,0 +1,417 @@
+/* ================= ОБЩЕЕ ДЛЯ ИГР ================= */
+.games-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  margin-top: 10px;
+}
+
+.game-block {
+  padding: 30px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.game-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+  text-align: center;
+}
+
+.game-stat {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+  margin: 0;
+  padding: 8px 16px;
+  background: var(--bg-glass);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+}
+
+.game-hint {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--accent);
+  opacity: 0.75;
+  margin: 0;
+  text-align: center;
+  max-width: 360px;
+  line-height: 1.4;
+}
+
+/* ================= ЗМЕЙКА ================= */
+.snake-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.snake-canvas-box {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+#snakeCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: var(--canvas-bg);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  box-sizing: border-box;
+}
+
+.snake-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.snake-row {
+  display: flex;
+  gap: 8px;
+}
+
+.snake-btn {
+  width: 50px;
+  height: 50px;
+  background: var(--accent);
+  color: #ffffff;
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Montserrat', sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.snake-btn:hover,
+.snake-btn:active {
+  background: var(--bg-color);
+  color: var(--accent);
+}
+
+/* ================= ПАЗЛ ================= */
+.puzzle-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.puzzle-board {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 4px;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.puzzle-tile {
+  background-size: 300% 300%;
+  background-repeat: no-repeat;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  position: relative;
+  background-color: #ffffff;
+}
+
+.puzzle-tile:hover { transform: scale(0.96); }
+
+.puzzle-tile.empty {
+  background: var(--bg-color);
+  cursor: default;
+  opacity: 0.3;
+}
+
+.puzzle-tile.empty:hover { transform: none; }
+
+.puzzle-btn {
+  padding: 12px 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.puzzle-btn:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+}
+
+/* ================= 2048 ================= */
+.game2048-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.game2048-info {
+  display: flex;
+  gap: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--accent);
+}
+
+.game2048-info > span {
+  background: var(--bg-glass);
+  padding: 8px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+}
+
+.game2048-board {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1 / 1;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  padding: 8px;
+  box-sizing: border-box;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+}
+
+.g2048-bg {
+  position: absolute;
+  inset: 8px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  gap: 8px;
+  pointer-events: none;
+}
+
+.g2048-bg-cell {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
+.g2048-tile {
+  position: absolute;
+  width: calc((100% - 16px - 24px) / 4);
+  height: calc((100% - 16px - 24px) / 4);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 22px;
+  color: #ffffff;
+  transition: transform 0.12s ease-out, background 0.15s ease;
+  will-change: transform;
+  z-index: 1;
+  top: 0;
+  left: 0;
+}
+
+.g2048-tile.new { animation: tile-appear 0.18s ease-out; }
+
+@keyframes tile-appear {
+  0%   { transform: var(--tf) scale(0.3); opacity: 0; }
+  100% { transform: var(--tf) scale(1); opacity: 1; }
+}
+
+.g2048-tile.merged {
+  animation: tile-merge 0.2s ease-out;
+  z-index: 2;
+}
+
+@keyframes tile-merge {
+  0%   { transform: var(--tf) scale(1); }
+  50%  { transform: var(--tf) scale(1.18); }
+  100% { transform: var(--tf) scale(1); }
+}
+
+.g2048-tile[data-v="2"]    { background: #eee4da; color: #776e65; }
+.g2048-tile[data-v="4"]    { background: #ede0c8; color: #776e65; }
+.g2048-tile[data-v="8"]    { background: #f2b179; color: #ffffff; }
+.g2048-tile[data-v="16"]   { background: #f59563; color: #ffffff; }
+.g2048-tile[data-v="32"]   { background: #f67c5f; color: #ffffff; }
+.g2048-tile[data-v="64"]   { background: #f65e3b; color: #ffffff; }
+.g2048-tile[data-v="128"]  { background: #edcf72; color: #ffffff; font-size: 20px; }
+.g2048-tile[data-v="256"]  { background: #edcc61; color: #ffffff; font-size: 20px; }
+.g2048-tile[data-v="512"]  { background: #edc850; color: #ffffff; font-size: 20px; }
+.g2048-tile[data-v="1024"] { background: #edc53f; color: #ffffff; font-size: 16px; }
+.g2048-tile[data-v="2048"] { background: #edc22e; color: #ffffff; font-size: 16px; box-shadow: 0 0 20px rgba(237, 194, 46, 0.6); }
+
+.game2048-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.game2048-btn {
+  padding: 12px 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.game2048-btn:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+}
+
+/* ================= САПЁР ================= */
+.minesweeper-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+
+.minesweeper-info {
+  display: flex;
+  gap: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--accent);
+  align-items: center;
+}
+
+.minesweeper-info > span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-glass);
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  min-width: 70px;
+  justify-content: center;
+}
+
+.minesweeper-board {
+  display: grid;
+  gap: 2px;
+  background: var(--accent);
+  padding: 5px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mine-cell {
+  background: var(--bg-glass);
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 11px;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+  aspect-ratio: 1 / 1;
+}
+
+.mine-cell:hover { background: var(--bg-glass-strong); }
+.mine-cell:active { transform: scale(0.95); }
+
+.mine-cell.revealed {
+  background: rgba(255, 255, 255, 0.25);
+  cursor: default;
+  color: var(--text-color);
+}
+
+.mine-cell.revealed:hover { background: rgba(255, 255, 255, 0.25); }
+.mine-cell.revealed:active { transform: none; }
+
+.mine-cell.flagged { background: rgba(231, 76, 60, 0.2); }
+.mine-cell.mine { background: #e74c3c; color: #ffffff; }
+
+.mine-cell[data-n="1"] { color: #2980b9; }
+.mine-cell[data-n="2"] { color: #27ae60; }
+.mine-cell[data-n="3"] { color: #e74c3c; }
+.mine-cell[data-n="4"] { color: #8e44ad; }
+.mine-cell[data-n="5"] { color: #d35400; }
+.mine-cell[data-n="6"] { color: #16a085; }
+.mine-cell[data-n="7"] { color: #2c3e50; }
+.mine-cell[data-n="8"] { color: #7f8c8d; }
+
+.minesweeper-btn {
+  padding: 12px 40px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: var(--accent);
+  border: 2px solid var(--accent);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.minesweeper-btn:hover {
+  background: var(--bg-color);
+  color: var(--accent);
+}
