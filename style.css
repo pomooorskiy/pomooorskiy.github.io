@@ -663,7 +663,7 @@ html[lang="ar"] .news-card-text {
 .news-carousel {
   position: relative;
   width: 100%;
-  max-width: 1100px;
+  max-width: 900px;
   margin: 10px auto 0 auto;
   display: flex;
   align-items: center;
@@ -672,6 +672,7 @@ html[lang="ar"] .news-card-text {
 
 .news-track-wrapper {
   flex: 1;
+  min-width: 0;
   overflow: hidden;
   border-radius: 20px;
 }
@@ -685,23 +686,23 @@ html[lang="ar"] .news-card-text {
 .news-card {
   flex: 0 0 100%;
   box-sizing: border-box;
-  padding: 40px;
+  padding: 32px;
   background: var(--bg-glass);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   box-shadow: 0 8px 25px var(--shadow-color);
-  min-height: 360px;
+  min-height: 300px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 .news-card-title {
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
-  font-size: 26px;
+  font-size: 22px;
   color: var(--accent);
   margin: 0;
   line-height: 1.3;
@@ -710,7 +711,7 @@ html[lang="ar"] .news-card-text {
 .news-card-date {
   font-family: 'Montserrat', sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--accent);
   opacity: 0.7;
   margin: 0;
@@ -720,20 +721,21 @@ html[lang="ar"] .news-card-text {
 .news-card-text {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
-  font-size: 16px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--text-color);
   margin: 0;
 }
 
 .news-arrow {
   flex-shrink: 0;
-  width: 52px; height: 52px;
+  width: 48px;
+  height: 48px;
   background: var(--accent);
   color: #ffffff;
   border: 2px solid var(--accent);
   border-radius: 50%;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   cursor: pointer;
   display: flex;
@@ -756,7 +758,8 @@ html[lang="ar"] .news-card-text {
 }
 
 .news-dot {
-  width: 12px; height: 12px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--border-color);
   cursor: pointer;
@@ -769,7 +772,6 @@ html[lang="ar"] .news-card-text {
   background: var(--accent);
   transform: scale(1.2);
 }
-
 /* ================= ИГРЫ ================= */
 .games-grid {
   display: grid;
