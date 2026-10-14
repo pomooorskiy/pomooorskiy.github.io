@@ -739,3 +739,781 @@ if (scrollTopBtn) {
   if (shuffleBtn) shuffleBtn.addEventListener('click', shuffle);
   shuffle();
 })();
+
+/* ==================== ИГРА 2048 ==================== */
+(function () {
+  const boardEl = document.getElementById('g2048Board');
+  const bgEl = document.getElementById('g2048Bg');
+  if (!boardEl || !bgEl) return;
+  const scoreEl = document.getElementById('g2048Score');
+  const bestEl = document.getElementById('g2048Best');
+  const resetBtn = document.getElementById('g2048Reset');
+  const SIZE = 4, GAP = 8, PAD = 8;
+  let grid = [], tiles = [], nextId = 1, score = 0;
+  let best = parseInt(localStorage.getItem('g2048best') || '0', 10);
+  let gameOver = false, won = false, animating = false;
+  if (bestEl) bestEl.textContent = best;
+
+  function buildBg() {
+    bgEl.innerHTML = '';
+    for (let i = 0; i < SIZE * SIZE; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'g2048-bg-cell';
+      bgEl.appendChild(cell);
+    }
+  }
+
+  function tileTransform(row, col) {
+    const boardSize = boardEl.clientWidth;
+    const cellSize = (boardSize - 2 * PAD - (SIZE - 1) * GAP) / SIZE;
+    const step = cellSize + GAP;
+    return `translate(${PAD + col * step}px, ${PAD + row * step}px)`;
+  }
+
+  function setTileSize(el) {
+    const boardSize = boardEl.clientWidth;
+    const cellSize = (boardSize - 2 * PAD - (SIZE - 1) * GAP) / SIZE;
+    el.style.width = cellSize + 'px';
+    el.style.height = cellSize + 'px';
+  }
+
+  function createTileElement(tile) {
+    const el = document.createElement('div');
+    el.className = 'g2048-tile';
+    el.textContent = tile.value;
+    el.setAttribute('data-v', tile.value);
+    if (tile.isNew) el.classList.add('new');
+    if (tile.merged) el.classList.add('merged');
+    setTileSize(el);
+    const tf = tileTransform(tile.row, tile.col);
+    el.style.setProperty('--tf', tf);
+    el.style.transform = tf;
+    boardEl.appendChild(el);
+    tile.el = el;
+    if (tile.isNew || tile.merged) {
+      setTimeout(() => {
+        el.classList.remove('new');
+        el.classList.remove('merged');
+        tile.isNew = false;
+        tile.merged = false;
+      }, 220);
+    }
+  }
+
+  function emptyGrid() {
+    return Array.from({ length: SIZE }, () => Array(SIZE).fill(0));
+  }
+
+  function addRandomTile() {
+    const empty = [];
+    for (let r = 0; r < SIZE; r++)
+      for (let c = 0; c < SIZE; c++)
+        if (grid[r][c] === 0) empty.push({ r, c });
+    if (!empty.length) return null;
+    const { r, c } = empty[Math.floor(Math.random() * empty.length)];
+    const value = Math.random() < 0.9 ? 2 : 4;
+    grid[r][c] = value;
+    const tile = { id: nextId++, value, row: r, col: c, isNew: true, merged: false };
+    tiles.push(tile);
+    return tile;
+  }
+
+  function fullRender() {
+    Array.from(boardEl.querySelectorAll('.g2048-tile')).forEach(el => el.remove());
+    tiles.forEach(tile => createTileElement(tile));
+  }
+
+  function init() {
+    grid = emptyGrid(); tiles = []; nextId = 1; score = 0;
+    gameOver = false; won = false; animating = false;
+    if (scoreEl) scoreEl.textContent = '0';
+    Array.from(boardEl.querySelectorAll('.g2048-tile')).forEach(el => el.remove());
+    addRandomTile(); addRandomTile();
+    fullRender();
+  }
+
+  function slide(rowArr) {
+    const filtered = rowArr.filter(v => v !== 0);
+    const result = [];
+    let gained = 0, i = 0;
+    while (i < filtered.length) {
+      if (i + 1 < filtered.length && filtered[i] === filtered[i + 1]) {
+        const newVal = filtered[i] * 2;
+        result.push(newVal); gained += newVal; i += 2;
+      } else { result.push(filtered[i]); i++; }
+    }
+    while (result.length < SIZE) result.push(0);
+    return { result, gained };
+  }
+
+  function move(dir) {
+    if (gameOver || animating) return;
+    const before = JSON.stringify(grid);
+    let gained = 0;
+    const newGrid = emptyGrid();
+    const lines = (dir === 'left' || dir === 'right') ? 'row' : 'col';
+    const reverse = (dir === 'right' || dir === 'down');
+
+    for (let idx = 0; idx < SIZE; idx++) {
+      let lineTiles;
+      if (lines === 'row') {
+        lineTiles = tiles.filter(t => t.row === idx);
+        lineTiles.sort((a, b) => a.col - b.col);
+      } else {
+        lineTiles = tiles.filter(t => t.col === idx);
+        lineTiles.sort((a, b) => a.row - b.row);
+      }
+      if (reverse) lineTiles.reverse();
+      const values = lineTiles.map(t => t.value);
+      const { result, gained: g } = slide(values);
+      gained += g;
+      for (let pos = 0; pos < SIZE; pos++) {
+        if (lines === 'row') {
+          const c = reverse ? (SIZE - 1 - pos) : pos;
+          newGrid[idx][c] = result[pos];
+        } else {
+          const r = reverse ? (SIZE - 1 - pos) : pos;
+          newGrid[r][idx] = result[pos];
+        }
+      }
+      let srcIdx = 0, dstIdx = 0;
+      while (srcIdx < lineTiles.length) {
+        if (srcIdx + 1 < lineTiles.length && lineTiles[srcIdx].value === lineTiles[srcIdx + 1].value) {
+          const t1 = lineTiles[srcIdx], t2 = lineTiles[srcIdx + 1];
+          const newValue = t1.value * 2;
+          t1.value = newValue; t1.merged = true;
+          const targetPos = reverse ? (SIZE - 1 - dstIdx) : dstIdx;
+          if (lines === 'row') { t1.row = idx; t1.col = targetPos; }
+          else { t1.col = idx; t1.row = targetPos; }
+          t2.removeAfterAnim = true;
+          if (lines === 'row') { t2.row = idx; t2.col = targetPos; }
+          else { t2.col = idx; t2.row = targetPos; }
+          dstIdx++; srcIdx += 2;
+        } else {
+          const t = lineTiles[srcIdx];
+          const targetPos = reverse ? (SIZE - 1 - dstIdx) : dstIdx;
+          if (lines === 'row') { t.row = idx; t.col = targetPos; }
+          else { t.col = idx; t.row = targetPos; }
+          dstIdx++; srcIdx++;
+        }
+      }
+    }
+
+    if (JSON.stringify(newGrid) !== before) {
+      grid = newGrid;
+      score += gained;
+      if (scoreEl) scoreEl.textContent = score;
+      if (score > best) {
+        best = score;
+        localStorage.setItem('g2048best', String(best));
+        if (bestEl) bestEl.textContent = best;
+      }
+      animating = true;
+      tiles.forEach(t => {
+        if (t.el) {
+          const tf = tileTransform(t.row, t.col);
+          t.el.style.setProperty('--tf', tf);
+          t.el.style.transform = tf;
+          if (t.merged) {
+            t.el.textContent = t.value;
+            t.el.setAttribute('data-v', t.value);
+          }
+        }
+      });
+      setTimeout(() => {
+        tiles = tiles.filter(t => {
+          if (t.removeAfterAnim) {
+            if (t.el && t.el.parentNode) t.el.parentNode.removeChild(t.el);
+            return false;
+          }
+          return true;
+        });
+        tiles.forEach(t => { t.merged = false; });
+        addRandomTile();
+        Array.from(boardEl.querySelectorAll('.g2048-tile')).forEach(el => el.remove());
+        tiles.forEach(t => createTileElement(t));
+        animating = false;
+        if (!won && grid.some(row => row.some(v => v >= 2048))) {
+          won = true;
+          setTimeout(() => alert('Вы собрали 2048!'), 100);
+        }
+        if (!canMove()) {
+          gameOver = true;
+          setTimeout(() => alert(`Игра окончена! Счёт: ${score}`), 100);
+        }
+      }, 130);
+    }
+  }
+
+  function canMove() {
+    for (let r = 0; r < SIZE; r++)
+      for (let c = 0; c < SIZE; c++) {
+        if (grid[r][c] === 0) return true;
+        if (c < SIZE - 1 && grid[r][c] === grid[r][c + 1]) return true;
+        if (r < SIZE - 1 && grid[r][c] === grid[r + 1][c]) return true;
+      }
+    return false;
+  }
+
+  const upBtn = document.getElementById('g2048Up');
+  const downBtn = document.getElementById('g2048Down');
+  const leftBtn = document.getElementById('g2048Left');
+  const rightBtn = document.getElementById('g2048Right');
+  if (upBtn) upBtn.addEventListener('click', () => move('up'));
+  if (downBtn) downBtn.addEventListener('click', () => move('down'));
+  if (leftBtn) leftBtn.addEventListener('click', () => move('left'));
+  if (rightBtn) rightBtn.addEventListener('click', () => move('right'));
+
+  window.addEventListener('keydown', (e) => {
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+    const rect = boardEl.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+    if (e.key === 'ArrowLeft') move('left');
+    else if (e.key === 'ArrowRight') move('right');
+    else if (e.key === 'ArrowUp') move('up');
+    else if (e.key === 'ArrowDown') move('down');
+    e.preventDefault();
+  });
+
+  let tX = 0, tY = 0;
+  boardEl.addEventListener('touchstart', (e) => {
+    tX = e.touches[0].clientX;
+    tY = e.touches[0].clientY;
+  }, { passive: true });
+  boardEl.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - tX;
+    const dy = e.changedTouches[0].clientY - tY;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < 30) return;
+    if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 'right' : 'left');
+    else move(dy > 0 ? 'down' : 'up');
+  }, { passive: true });
+
+  window.addEventListener('resize', () => {
+    Array.from(boardEl.querySelectorAll('.g2048-tile')).forEach((el, i) => {
+      const tile = tiles[i];
+      if (!tile) return;
+      setTileSize(el);
+      const tf = tileTransform(tile.row, tile.col);
+      el.style.setProperty('--tf', tf);
+      el.style.transform = tf;
+    });
+  });
+
+  if (resetBtn) resetBtn.addEventListener('click', init);
+  buildBg();
+  init();
+})();
+
+
+/* ==================== ИГРА САПЁР ==================== */
+(function () {
+  const boardEl = document.getElementById('mineBoard');
+  if (!boardEl) return;
+  const mineCountEl = document.getElementById('mineCount');
+  const mineTimeEl = document.getElementById('mineTime');
+  const mineStateEl = document.getElementById('mineState');
+  const resetBtn = document.getElementById('mineReset');
+  const SIZE = 16, MINES = 40;
+  let board = [], gameOver = false, started = false;
+  let timer = null, seconds = 0, flagsPlaced = 0;
+
+  function init() {
+    board = []; gameOver = false; started = false;
+    seconds = 0; flagsPlaced = 0;
+    if (timer) clearInterval(timer);
+    timer = null;
+    if (mineCountEl) mineCountEl.textContent = MINES;
+    if (mineTimeEl) mineTimeEl.textContent = '0';
+    if (mineStateEl) mineStateEl.textContent = '🙂';
+    for (let i = 0; i < SIZE * SIZE; i++) {
+      board.push({ mine: false, revealed: false, flagged: false, neighbors: 0 });
+    }
+    render();
+  }
+
+  function getNeighbors(index) {
+    const row = Math.floor(index / SIZE);
+    const col = index % SIZE;
+    const res = [];
+    for (let dr = -1; dr <= 1; dr++)
+      for (let dc = -1; dc <= 1; dc++) {
+        if (dr === 0 && dc === 0) continue;
+        const r = row + dr, c = col + dc;
+        if (r >= 0 && r < SIZE && c >= 0 && c < SIZE) res.push(r * SIZE + c);
+      }
+    return res;
+  }
+
+  function placeMines(firstIndex) {
+    let placed = 0;
+    const forbidden = getNeighbors(firstIndex).concat([firstIndex]);
+    while (placed < MINES) {
+      const idx = Math.floor(Math.random() * SIZE * SIZE);
+      if (board[idx].mine || forbidden.includes(idx)) continue;
+      board[idx].mine = true;
+      placed++;
+    }
+    for (let i = 0; i < board.length; i++) {
+      if (board[i].mine) continue;
+      board[i].neighbors = getNeighbors(i).filter(n => board[n].mine).length;
+    }
+  }
+
+  function startTimer() {
+    if (timer) return;
+    timer = setInterval(() => {
+      seconds++;
+      if (mineTimeEl) mineTimeEl.textContent = seconds;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  function render() {
+    boardEl.innerHTML = '';
+    boardEl.style.gridTemplateColumns = `repeat(${SIZE}, 1fr)`;
+    boardEl.style.gridTemplateRows = `repeat(${SIZE}, 1fr)`;
+    board.forEach((cell, index) => {
+      const el = document.createElement('div');
+      el.className = 'mine-cell';
+      if (cell.revealed) {
+        el.classList.add('revealed');
+        if (cell.mine) { el.classList.add('mine'); el.textContent = '💣'; }
+        else if (cell.neighbors > 0) {
+          el.textContent = cell.neighbors;
+          el.setAttribute('data-n', cell.neighbors);
+        }
+      } else if (cell.flagged) {
+        el.classList.add('flagged');
+        el.textContent = '🚩';
+      }
+      el.addEventListener('click', () => handleReveal(index));
+      el.addEventListener('contextmenu', (e) => { e.preventDefault(); handleFlag(index); });
+      let touchTimer = null;
+      el.addEventListener('touchstart', () => {
+        touchTimer = setTimeout(() => { handleFlag(index); touchTimer = null; }, 500);
+      }, { passive: true });
+      el.addEventListener('touchend', () => {
+        if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
+      });
+      boardEl.appendChild(el);
+    });
+  }
+
+  function handleReveal(index) {
+    if (gameOver || board[index].flagged || board[index].revealed) return;
+    if (!started) { started = true; placeMines(index); startTimer(); }
+    if (board[index].mine) {
+      board[index].revealed = true;
+      gameOver = true;
+      stopTimer();
+      if (mineStateEl) mineStateEl.textContent = '😵';
+      board.forEach(c => { if (c.mine) c.revealed = true; });
+      render();
+      return;
+    }
+    openCell(index);
+    render();
+    checkWin();
+  }
+
+  function openCell(index) {
+    const cell = board[index];
+    if (cell.revealed || cell.flagged) return;
+    cell.revealed = true;
+    if (cell.neighbors === 0 && !cell.mine) {
+      getNeighbors(index).forEach(n => {
+        if (!board[n].revealed && !board[n].flagged) openCell(n);
+      });
+    }
+  }
+
+  function handleFlag(index) {
+    if (gameOver || board[index].revealed) return;
+    if (board[index].flagged) { board[index].flagged = false; flagsPlaced--; }
+    else { board[index].flagged = true; flagsPlaced++; }
+    if (mineCountEl) mineCountEl.textContent = MINES - flagsPlaced;
+    render();
+    checkWin();
+  }
+
+  function checkWin() {
+    if (board.every(c => c.revealed || c.mine) && !gameOver) {
+      gameOver = true;
+      stopTimer();
+      if (mineStateEl) mineStateEl.textContent = '😎';
+      board.forEach(c => { if (c.mine) c.flagged = true; });
+      render();
+      setTimeout(() => alert(`Победа! Время: ${seconds} сек.`), 200);
+    }
+  }
+
+  if (resetBtn) resetBtn.addEventListener('click', init);
+  init();
+})();
+
+
+/* ==================== ВИКТОРИНА: СОБЕРИ АББРЕВИАТУРУ ==================== */
+(function () {
+  const target = document.getElementById('abbrTarget');
+  const pool = document.getElementById('abbrPool');
+  const resetBtn = document.getElementById('abbrReset');
+  const statusEl = document.getElementById('abbrStatus');
+  if (!target || !pool) return;
+
+  const CORRECT_PARTS = [
+    'Всегимназическая',
+    'демократическая',
+    'партия',
+    'подотчётного',
+    'парламента,',
+    'всенародного',
+    'обсуждения,',
+    'многоуровневого',
+    'согласования',
+    'и',
+    'окончательного',
+    'утверждения',
+    'в',
+    'установленном',
+    'порядке'
+  ];
+
+  let placedTiles = [];
+  let poolTiles = [];
+
+  function shuffle(arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  function createTile(text) {
+    const el = document.createElement('div');
+    el.className = 'abbr-tile';
+    el.textContent = text;
+    el.setAttribute('draggable', 'true');
+    el.dataset.text = text;
+
+    el.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', text);
+      e.dataTransfer.effectAllowed = 'move';
+      el.classList.add('dragging');
+      setTimeout(() => { if (el.parentNode) el.style.opacity = '0.4'; }, 0);
+    });
+    el.addEventListener('dragend', () => {
+      el.classList.remove('dragging');
+      el.style.opacity = '';
+    });
+
+    el.addEventListener('touchstart', handleTouchStart, { passive: false });
+    el.addEventListener('touchmove', handleTouchMove, { passive: false });
+    el.addEventListener('touchend', handleTouchEnd);
+
+    return el;
+  }
+
+  let touchTile = null, touchClone = null, touchOffsetX = 0, touchOffsetY = 0;
+
+  function handleTouchStart(e) {
+    const el = e.currentTarget;
+    if (el.classList.contains('placed')) return;
+    touchTile = el;
+    const touch = e.touches[0];
+    const rect = el.getBoundingClientRect();
+    touchOffsetX = touch.clientX - rect.left;
+    touchOffsetY = touch.clientY - rect.top;
+
+    touchClone = el.cloneNode(true);
+    touchClone.style.position = 'fixed';
+    touchClone.style.left = (touch.clientX - touchOffsetX) + 'px';
+    touchClone.style.top = (touch.clientY - touchOffsetY) + 'px';
+    touchClone.style.width = rect.width + 'px';
+    touchClone.style.height = rect.height + 'px';
+    touchClone.style.pointerEvents = 'none';
+    touchClone.style.zIndex = '99999';
+    touchClone.style.opacity = '0.9';
+    touchClone.style.transform = 'scale(1.08) rotate(-2deg)';
+    touchClone.classList.add('dragging');
+    document.body.appendChild(touchClone);
+
+    el.style.opacity = '0.3';
+    e.preventDefault();
+  }
+
+  function handleTouchMove(e) {
+    if (!touchTile || !touchClone) return;
+    const touch = e.touches[0];
+    touchClone.style.left = (touch.clientX - touchOffsetX) + 'px';
+    touchClone.style.top = (touch.clientY - touchOffsetY) + 'px';
+    e.preventDefault();
+  }
+
+  function handleTouchEnd(e) {
+    if (!touchTile || !touchClone) return;
+    const touch = e.changedTouches[0];
+    const elemBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+
+    touchClone.remove();
+    touchClone = null;
+    touchTile.style.opacity = '';
+    const tile = touchTile;
+    touchTile = null;
+
+    if (elemBelow && (elemBelow === target || target.contains(elemBelow))) {
+      placeTileInto(tile);
+    }
+  }
+
+  target.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    target.classList.add('drag-over');
+  });
+  target.addEventListener('dragleave', () => target.classList.remove('drag-over'));
+  target.addEventListener('drop', (e) => {
+    e.preventDefault();
+    target.classList.remove('drag-over');
+    const text = e.dataTransfer.getData('text/plain');
+    const tile = document.querySelector('.abbr-tile[data-text="' + CSS.escape(text) + '"]:not(.placed)');
+    if (tile) placeTileInto(tile);
+  });
+
+  target.addEventListener('click', (e) => {
+    const tile = e.target.closest('.abbr-tile.placed');
+    if (!tile) return;
+    removeTileFromTarget(tile);
+  });
+
+  function placeTileInto(tile) {
+    const nextIndex = placedTiles.length;
+    const isCorrect = CORRECT_PARTS[nextIndex] === tile.dataset.text;
+
+    if (!isCorrect) {
+      tile.classList.add('wrong');
+      setTimeout(() => tile.classList.remove('wrong'), 450);
+      return;
+    }
+
+    tile.classList.remove('dragging');
+    tile.classList.add('placed', 'snap');
+    tile.setAttribute('draggable', 'false');
+    tile.style.opacity = '';
+
+    if (tile.parentNode) tile.parentNode.removeChild(tile);
+    target.appendChild(tile);
+
+    placedTiles.push(tile);
+    poolTiles = poolTiles.filter(t => t !== tile);
+
+    setTimeout(() => tile.classList.remove('snap'), 320);
+    checkComplete();
+  }
+
+  function removeTileFromTarget(tile) {
+    const idx = placedTiles.indexOf(tile);
+    if (idx === -1) return;
+
+    const toReturn = placedTiles.splice(idx);
+    toReturn.forEach(t => {
+      t.classList.remove('placed', 'snap');
+      t.setAttribute('draggable', 'true');
+      t.addEventListener('touchstart', handleTouchStart, { passive: false });
+      t.addEventListener('touchmove', handleTouchMove, { passive: false });
+      t.addEventListener('touchend', handleTouchEnd);
+      if (t.parentNode) t.parentNode.removeChild(t);
+      pool.appendChild(t);
+      poolTiles.push(t);
+    });
+
+    const shuffled = shuffle(poolTiles);
+    pool.innerHTML = '';
+    shuffled.forEach(t => pool.appendChild(t));
+    poolTiles = shuffled;
+
+    if (statusEl) statusEl.textContent = '';
+    target.classList.remove('complete');
+  }
+
+  function checkComplete() {
+    if (placedTiles.length === CORRECT_PARTS.length) {
+      target.classList.add('complete');
+      if (statusEl) {
+        statusEl.textContent = '🎉 Правильно! Ты знаешь полное название партии!';
+        statusEl.style.color = '#27ae60';
+      }
+    }
+  }
+
+  function init() {
+    target.innerHTML = '';
+    pool.innerHTML = '';
+    placedTiles = [];
+    poolTiles = [];
+    if (statusEl) {
+      statusEl.textContent = '';
+      statusEl.style.color = '';
+    }
+    target.classList.remove('complete', 'drag-over');
+
+    const tiles = CORRECT_PARTS.map(text => createTile(text));
+    const shuffled = shuffle(tiles);
+    shuffled.forEach(t => {
+      pool.appendChild(t);
+      poolTiles.push(t);
+    });
+  }
+
+  if (resetBtn) resetBtn.addEventListener('click', init);
+  init();
+})();
+
+
+/* ==================== ВИКТОРИНА: КТО ТЫ ИЗ ППП ==================== */
+(function () {
+  const container = document.getElementById('whoQuiz');
+  if (!container) return;
+
+  const QUESTIONS = [
+    {
+      q: 'Выбери, какой из вариантов названия партии правильный',
+      answers: [
+        { text: 'Всегимназическая демократическая партия подотчётного парламента, всенародного обсуждения, многоуровневого согласования и окончательного утверждения в установленном порядке' },
+        { text: 'Все дружно посадили, полили, пропололи — вкусная с маслом, очень и очень удачная, варения, укропом посыпанная картошка' },
+        { text: 'Не знаю' }
+      ]
+    },
+    {
+      q: 'Если бы ты был буквой, то гласной или согласной?',
+      answers: [{ text: 'Гласной' }, { text: 'Согласной' }]
+    },
+    {
+      q: 'Чем ты готов пожертвовать ради партии?',
+      answers: [{ text: 'Всем' }, { text: 'Больше, чем всем' }]
+    },
+    {
+      q: 'Кто для тебя Савелий Решин?',
+      answers: [
+        { text: 'Герой и лидер' },
+        { text: 'Ужасный человек' },
+        { text: 'Я не знаю, кто это' }
+      ]
+    },
+    {
+      q: 'Что для тебя значит партия?',
+      answers: [{ text: 'Всё' }, { text: 'Больше, чем всё' }]
+    },
+    {
+      q: 'Кто твоя любимая пони из My Little Pony?',
+      answers: [
+        { text: 'Рарити' },
+        { text: 'Флаттершай ❤️❤️❤️❤️' },
+        { text: 'Эпплджек' },
+        { text: 'Сумеречная Искорка' },
+        { text: 'Рейнбоу Дэш' },
+        { text: 'Пинки Пай' },
+        { text: 'Дискорд' }
+      ]
+    }
+  ];
+
+  const RESULT = {
+    name: 'Александр Ровнер',
+    text: 'Ты больше всего похож на Александра Ровнера, самого многостороннего участника партии.',
+    image: 'https://lh3.googleusercontent.com/d/1G9VdTNanmSTE8efT7IRtffDrJGi6IsXT'
+  };
+
+  let currentQuestion = 0;
+  let locked = false;
+
+  function renderQuestion() {
+    container.innerHTML = '';
+    locked = false;
+
+    if (currentQuestion >= QUESTIONS.length) {
+      renderResult();
+      return;
+    }
+
+    const q = QUESTIONS[currentQuestion];
+
+    const block = document.createElement('div');
+    block.className = 'who-question';
+
+    const title = document.createElement('p');
+    title.className = 'who-question-title';
+    title.textContent = (currentQuestion + 1) + '. ' + q.q;
+    block.appendChild(title);
+
+    const answersWrap = document.createElement('div');
+    answersWrap.className = 'who-answers';
+
+    q.answers.forEach(a => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'who-answer';
+      btn.textContent = a.text;
+      btn.addEventListener('click', () => {
+        if (locked) return;
+        locked = true;
+        btn.classList.add('selected');
+        setTimeout(() => {
+          currentQuestion++;
+          renderQuestion();
+        }, 350);
+      });
+      answersWrap.appendChild(btn);
+    });
+
+    block.appendChild(answersWrap);
+
+    const progress = document.createElement('p');
+    progress.className = 'who-progress';
+    progress.textContent = 'Вопрос ' + (currentQuestion + 1) + ' из ' + QUESTIONS.length;
+    block.appendChild(progress);
+
+    container.appendChild(block);
+  }
+
+  function renderResult() {
+    container.innerHTML = '';
+
+    const result = document.createElement('div');
+    result.className = 'who-result';
+
+    const img = document.createElement('img');
+    img.src = RESULT.image;
+    img.alt = RESULT.name;
+    img.className = 'who-result-image';
+    result.appendChild(img);
+
+    const title = document.createElement('h4');
+    title.className = 'who-result-title';
+    title.textContent = 'Ты — ' + RESULT.name;
+    result.appendChild(title);
+
+    const text = document.createElement('p');
+    text.className = 'who-result-text';
+    text.textContent = RESULT.text;
+    result.appendChild(text);
+
+    const restart = document.createElement('button');
+    restart.type = 'button';
+    restart.className = 'who-restart';
+    restart.textContent = 'Пройти заново';
+    restart.addEventListener('click', () => {
+      currentQuestion = 0;
+      renderQuestion();
+    });
+    result.appendChild(restart);
+
+    container.appendChild(result);
+  }
+
+  renderQuestion();
+})();
