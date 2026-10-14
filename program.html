@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="nav.program">Программа — ППП</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Heebo:wght@400;700;800;900&family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="header-left">
+      <img src="https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4" alt="Логотип" class="site-logo">
+      <h1 class="site-title" data-i18n="site.title">Партия подотчётного парламента</h1>
+    </a>
+
+    <div class="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" aria-label="Сменить язык">
+          <span id="langCurrent">RU</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button class="lang-option" data-lang="ru">Русский</button>
+          <button class="lang-option" data-lang="be">Беларуская</button>
+          <button class="lang-option" data-lang="he">עברית</button>
+          <button class="lang-option" data-lang="ar">العربية</button>
+        </div>
+      </div>
+
+      <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="side-nav" id="sideNav">
+    <a href="program.html" class="nav-link" data-i18n="nav.program">Программа</a>
+    <a href="news.html" class="nav-link" data-i18n="nav.news">Новости</a>
+    <a href="games.html" class="nav-link" data-i18n="nav.games">Игры</a>
+    <a href="quizzes.html" class="nav-link" data-i18n="nav.quizzes">Викторины и тесты</a>
+    <a href="generators.html" class="nav-link" data-i18n="nav.generator">Генераторы</a>
+    <a href="contact.html" class="nav-link" data-i18n="nav.contactOther">Связь и прочее</a>
+  </nav>
+  <div class="side-nav-overlay" id="sideNavOverlay"></div>
+
+  <main class="main-content">
+
+    <a href="index.html" class="back-link">← <span data-i18n="back">На главную</span></a>
+
+    <h2 class="section-title reveal" data-i18n="section.program">Программа партии</h2>
+
+    <div class="grid-section reveal">
+      <div class="grid-cell">
+        <span class="cell-number">1</span>
+        <p class="cell-text">Переосмысление концепции школьного парламента — введение партийной системы (то есть чтобы быть в парламенте, надо быть в партии, и эта партия должна получить какой-то процент на выборах, а то попадание в парламент людей, которые не хотят что-либо там делать, просто нелогично).</p>
+      </div>
+      <div class="grid-cell">
+        <span class="cell-number">2</span>
+        <p class="cell-text">Принятие принципа публичности в отношении работы парламента (сейчас парламент занимается какой-то неизвестной для всех деятельностью, или не занимается ей вовсе. Мы предлагаем заставить парламент отчитываться о своей работе — созывах, обсуждениях и принятых на них решениях — в соцсетях или в виде каких-нибудь бумажных объявлений).</p>
+      </div>
+      <div class="grid-cell">
+        <span class="cell-number">3</span>
+        <p class="cell-text">Усиление влияния учащихся на работу парламента (сейчас, если ты не в парламенте, но при этом у тебя есть какая-то идея, донести её до парламента практически невозможно. Мы предлагаем ввести что-то по типу ящика предложений, куда можно будет в письменном виде бросать идеи, которые уже дальше будет обсуждать парламент).</p>
+      </div>
+      <div class="grid-cell">
+        <span class="cell-number">4</span>
+        <p class="cell-text">Создание комитетов при парламенте.</p>
+      </div>
+      <div class="grid-cell"><span class="cell-number">5</span></div>
+      <div class="grid-cell"><span class="cell-number">6</span></div>
+    </div>
+
+  </main>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Наверх">▲</button>
+
+  <script src="script.js"></script>
+</body>
+</html>

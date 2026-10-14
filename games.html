@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="nav.games">Игры — ППП</title>
+
+  <link rel="icon" type="image/png" href="favicon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Heebo:wght@400;700;800;900&family=Cairo:wght@400;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="header-left">
+      <img src="https://lh3.googleusercontent.com/d/1KRb9pi-oAD3qofva0diEfKu99MLGGNY4" alt="Логотип" class="site-logo">
+      <h1 class="site-title" data-i18n="site.title">Партия подотчётного парламента</h1>
+    </a>
+
+    <div class="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn" id="langBtn" aria-label="Сменить язык">
+          <span id="langCurrent">RU</span>
+        </button>
+        <div class="lang-menu" id="langMenu">
+          <button class="lang-option" data-lang="ru">Русский</button>
+          <button class="lang-option" data-lang="be">Беларуская</button>
+          <button class="lang-option" data-lang="he">עברית</button>
+          <button class="lang-option" data-lang="ar">العربية</button>
+        </div>
+      </div>
+
+      <button class="burger-btn" id="burgerBtn" aria-label="Меню">
+        <span></span><span></span><span></span>
+      </button>
+
+      <button class="theme-toggle" id="themeToggle" aria-label="Переключить тему">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="side-nav" id="sideNav">
+    <a href="program.html" class="nav-link" data-i18n="nav.program">Программа</a>
+    <a href="news.html" class="nav-link" data-i18n="nav.news">Новости</a>
+    <a href="games.html" class="nav-link" data-i18n="nav.games">Игры</a>
+    <a href="quizzes.html" class="nav-link" data-i18n="nav.quizzes">Викторины и тесты</a>
+    <a href="generators.html" class="nav-link" data-i18n="nav.generator">Генераторы</a>
+    <a href="contact.html" class="nav-link" data-i18n="nav.contactOther">Связь и прочее</a>
+  </nav>
+  <div class="side-nav-overlay" id="sideNavOverlay"></div>
+
+  <main class="main-content">
+
+    <a href="index.html" class="back-link">← <span data-i18n="back">На главную</span></a>
+
+    <h2 class="section-title reveal" id="games" data-i18n="section.games">Игры</h2>
+
+    <div class="games-grid">
+
+      <div class="game-block reveal">
+        <h3 class="game-title" data-i18n="game.snake">Змейка</h3>
+        <div class="snake-wrapper">
+          <div class="snake-canvas-box">
+            <canvas id="snakeCanvas" width="600" height="600"></canvas>
+          </div>
+          <div class="snake-controls">
+            <button class="snake-btn" id="snakeUp">▲</button>
+            <div class="snake-row">
+              <button class="snake-btn" id="snakeLeft">◀</button>
+              <button class="snake-btn" id="snakeDown">▼</button>
+              <button class="snake-btn" id="snakeRight">▶</button>
+            </div>
+          </div>
+          <p class="game-stat"><span data-i18n="game.score">Счёт</span>: <span id="snakeScore">0</span></p>
+        </div>
+      </div>
+
+      <div class="game-block reveal">
+        <h3 class="game-title" data-i18n="game.puzzle">Собери пазл</h3>
+        <div class="puzzle-wrapper">
+          <p class="game-stat"><span data-i18n="game.moves">Ходов</span>: <span id="puzzleMoves">0</span></p>
+          <div class="puzzle-board" id="puzzleBoard"></div>
+          <button class="puzzle-btn" id="puzzleShuffle" data-i18n="game.shuffle">Перемешать</button>
+        </div>
+      </div>
+
+      <div class="game-block reveal">
+        <h3 class="game-title">2048</h3>
+        <div class="game2048-wrapper">
+          <div class="game2048-info">
+            <span><span data-i18n="game.score">Счёт</span>: <span id="g2048Score">0</span></span>
+            <span><span data-i18n="game.best">Рекорд</span>: <span id="g2048Best">0</span></span>
+          </div>
+          <div class="game2048-board" id="g2048Board">
+            <div class="g2048-bg" id="g2048Bg"></div>
+          </div>
+          <div class="game2048-controls">
+            <button class="snake-btn" id="g2048Up">▲</button>
+            <div class="snake-row">
+              <button class="snake-btn" id="g2048Left">◀</button>
+              <button class="snake-btn" id="g2048Down">▼</button>
+              <button class="snake-btn" id="g2048Right">▶</button>
+            </div>
+          </div>
+          <button class="game2048-btn" id="g2048Reset" data-i18n="game.newGame">Новая игра</button>
+        </div>
+      </div>
+
+      <div class="game-block reveal">
+        <h3 class="game-title" data-i18n="game.minesweeper">Сапёр</h3>
+        <div class="minesweeper-wrapper">
+          <div class="minesweeper-info">
+            <span>💣 <span id="mineCount">40</span></span>
+            <span>⏱ <span id="mineTime">0</span></span>
+            <span id="mineState">🙂</span>
+          </div>
+          <div class="minesweeper-board" id="mineBoard"></div>
+          <p class="game-hint" data-i18n="mine.hint">ЛКМ — открыть, ПКМ (долгое нажатие) — флажок</p>
+          <button class="minesweeper-btn" id="mineReset" data-i18n="game.newGame">Новая игра</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <button class="scroll-top" id="scrollTop" aria-label="Наверх">▲</button>
+
+  <script src="script.js"></script>
+</body>
+</html>
