@@ -1926,17 +1926,21 @@ body[dir="rtl"] .cell-number { left: auto; right: 22px; }
   .cell-number { font-size: 24px; top: 14px; left: 16px; }
   .cell-text { font-size: 13px; }
 
-    /* Новости на мобильных — карточка почти весь экран, стрелки в одну строку снизу */
+     /* Новости на мобильных */
   .news-carousel {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 12px;
     max-width: 100%;
   }
 
   .news-track-wrapper {
+    order: 0;
+    flex: 0 0 100%;
     width: 100%;
     border-radius: 16px;
-    order: 0;
   }
 
   .news-card {
@@ -1950,28 +1954,18 @@ body[dir="rtl"] .cell-number { left: auto; right: 22px; }
   .news-card-date { font-size: 12px; }
   .news-card-text { font-size: 14px; }
 
-  /* Стрелки в одну строку */
   .news-arrow {
+    order: 1;
     width: 46px;
     height: 46px;
     font-size: 18px;
-    position: relative;
+    position: static;
   }
 
   .news-arrow-prev { order: 1; }
   .news-arrow-next { order: 2; }
 
-  /* Обёртка стрелок — если нужно, можно завернуть их в контейнер,
-     но проще: обе стрелки в column-контейнере остаются в одной строке
-     за счёт того, что .news-carousel — flex-column, а стрелки идут
-     после .news-track-wrapper и не переносятся. */
-  .news-carousel {
-    flex-wrap: nowrap;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .news-dots { margin-top: 14px; }
+  .news-dots { margin-top: 14px; flex: 0 0 100%; }
   .news-dot { width: 10px; height: 10px; }
 
   .game-block { padding: 20px; border-radius: 12px; }
