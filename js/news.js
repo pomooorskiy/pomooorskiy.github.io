@@ -84,90 +84,157 @@
   const spread = document.getElementById('diarySpread');
   if (!book || !cover || !spread) return;
 
-  const TOTAL_PAGES = 7;
+  const TOTAL_PAGES = 15;
+  const PAGE_TEXT = ['ГИМНАЗИЯ', 'САВЕЛИЙ', 'ПОБЕДА'];
+
   let opened = false;
-  let currentSpread = 0;
+  let currentLeft = 0; // индекс левой страницы (0, 2, 4, ...)
   let flipping = false;
 
-  const spreads = [];
-  for (let i = 0; i < TOTAL_PAGES; i += 2) {
-    spreads.push({
-      left: i,
-      right: i + 1 < TOTAL_PAGES ? i + 1 : null
+  // Создаём страницу
+  function createPage(index) {
+    const page = document.createElement('div');
+    page.className = 'diary-page ' + (index % 2 === 0 ? 'diary-page-left' : 'diary-page-right');
+
+    const content = document.createElement('div');
+    content.className = 'diary-page-content';
+
+    PAGE_TEXT.forEach(word => {
+      const span = document.createElement('span');
+      span.textContent = word;
+      content.appendChild(span);
     });
+
+    page.appendChild(content);
+
+    const num = document.createElement('span');
+    num.className = 'diary-page-number';
+    num.textContent = index + 1;
+    page.appendChild(num);
+
+    return page;
   }
 
   function renderSpread() {
     spread.innerHTML = '';
 
-    const s = spreads[currentSpread];
-    const leftNum = s.left + 1;
-    const rightNum = s.right !== null ? s.right + 1 : null;
-
-    const leftPage = document.createElement('div');
-    leftPage.className = 'diary-page diary-page-left';
-    const leftContent = document.createElement('div');
-    leftContent.className = 'diary-page-content';
-    leftPage.appendChild(leftContent);
-    const leftNumber = document.createElement('span');
-    leftNumber.className = 'diary-page-number';
-    leftNumber.textContent = leftNum;
-    leftPage.appendChild(leftNumber);
-    leftPage.addEventListener('click', nextSpread);
+    // Левая страница
+    const leftPage = createPage(currentLeft);
+    leftPage.addEventListener('click', (e) => {
+      e.stopPropagation();
+      goPrev();
+    });
     spread.appendChild(leftPage);
 
-    const rightPage = document.createElement('div');
-    rightPage.className = 'diary-page diary-page-right';
-    const rightContent = document.createElement('div');
-    rightContent.className = 'diary-page-content';
-    rightPage.appendChild(rightContent);
-    if (rightNum !== null) {
-      const rightNumber = document.createElement('span');
-      rightNumber.className = 'diary-page-number';
-      rightNumber.textContent = rightNum;
-      rightPage.appendChild(rightNumber);
+    // Правая страница (если есть)
+    const rightIndex = currentLeft + 1;
+    if (rightIndex < TOTAL_PAGES) {
+      const rightPage = createPage(rightIndex);
+      rightPage.addEventListener('click', (e) => {
+        e.stopPropagation();
+        goNext();
+      });
+      spread.appendChild(rightPage);
+    } else {
+      // Пустая правая страница (заглушка)
+      const empty = document.createElement('div');
+      empty.className = 'diary-page diary-page-right';
+      const num = document.createElement('span');
+      num.className = 'diary-page-number';
+      num.textContent = rightIndex + 1;
+      empty.appendChild(num);
+      spread.appendChild(empty);
     }
-    rightPage.addEventListener('click', nextSpread);
-    spread.appendChild(rightPage);
   }
 
-  function nextSpread() {
-    if (!opened) return;
-    if (flipping) return;
-    if (currentSpread >= spreads.length - 1) return;
+  // Вперёд (клик по правой)
+  function goNext() {
+    if (!opened || flipping) return;
+    if (currentLeft + 2 >= TOTAL_PAGES) return;
 
     flipping = true;
 
     const leftPage = spread.querySelector('.diary-page-left');
     const rightPage = spread.querySelector('.diary-page-right');
 
-    leftPage.classList.add('flipping-left');
-    rightPage.classList.add('flipping-right');
+    if (leftPage) leftPage.classList.add('flip-next-left');
+    if (rightPage) rightPage.classList.add('flip-next-right');
 
     setTimeout(() => {
-      currentSpread++;
+      currentLeft += 2;
       renderSpread();
 
       const newLeft = spread.querySelector('.diary-page-left');
       const newRight = spread.querySelector('.diary-page-right');
-      newLeft.classList.add('appear-left');
-      newRight.classList.add('appear-right');
+      if (newLeft) newLeft.classList.add('appear-left');
+      if (newRight) newRight.classList.add('appear-right');
 
       setTimeout(() => {
-        newLeft.classList.remove('appear-left');
-        newRight.classList.remove('appear-right');
+        if (newLeft) newLeft.classList.remove('appear-left');
+        if (newRight) newRight.classList.remove('appear-right');
         flipping = false;
-      }, 600);
-    }, 800);
+      }, 500);
+    }, 700);
   }
 
-  cover.addEventListener('click', () => {
-    if (opened) return;
+  // Назад (клик по левой)
+  function goPrev() {
+    if (!opened || flipping) return;
+
+    // Если это первая страница — закрываем книгу
+    if (currentLeft === 0) {
+      closeBook();
+      return;
+    }
+
+    flipping = true;
+
+    const leftPage = spread.querySelector('.diary-page-left');
+    const rightPage = spread.querySelector('.diary-page-right');
+
+    if (leftPage) leftPage.classList.add('flip-prev-left');
+    if (rightPage) rightPage.classList.add('flip-prev-right');
+
+    setTimeout(() => {
+      currentLeft -= 2;
+      renderSpread();
+
+      const newLeft = spread.querySelector('.diary-page-left');
+      const newRight = spread.querySelector('.diary-page-right');
+      if (newLeft) newLeft.classList.add('appear-left');
+      if (newRight) newRight.classList.add('appear-right');
+
+      setTimeout(() => {
+        if (newLeft) newLeft.classList.remove('appear-left');
+        if (newRight) newRight.classList.remove('appear-right');
+        flipping = false;
+      }, 500);
+    }, 700);
+  }
+
+  // Открыть книгу
+  function openBook() {
     opened = true;
+    currentLeft = 0;
     book.classList.remove('closed');
     book.classList.add('opened');
     renderSpread();
+  }
+
+  // Закрыть книгу
+  function closeBook() {
+    opened = false;
+    currentLeft = 0;
+    book.classList.remove('opened');
+    book.classList.add('closed');
+    spread.innerHTML = '';
+  }
+
+  // Клик по обложке — открыть
+  cover.addEventListener('click', () => {
+    if (!opened) openBook();
   });
 
-  renderSpread();
+  // Инициализация — закрыто
+  book.classList.add('closed');
 })();
