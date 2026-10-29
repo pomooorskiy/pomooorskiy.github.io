@@ -1,0 +1,84 @@
+/* ================= ПРОГРАММА ПАРТИИ ================= */
+.grid-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.grid-cell {
+  position: relative;
+  min-height: 200px;
+  padding: 70px 30px 30px 30px;
+  box-sizing: border-box;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: 0 8px 25px var(--shadow-color);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  align-items: center;
+}
+
+.grid-cell:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 35px var(--shadow-color);
+}
+
+.cell-number {
+  position: absolute;
+  top: 18px;
+  left: 22px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 32px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.cell-text {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 24px; /* Увеличено в 1.5 раза (было 16px) */
+  line-height: 1.55;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* ================= АДАПТИВ ================= */
+@media (max-width: 900px) {
+  .grid-section {
+    gap: 16px;
+  }
+  .grid-cell {
+    padding: 60px 20px 20px 20px;
+  }
+  .cell-text {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid-section {
+    grid-template-columns: 1fr;
+  }
+
+  .grid-cell {
+    min-height: 140px;
+    padding: 60px 20px 20px 20px;
+    border-radius: 12px;
+  }
+
+  .cell-number {
+    font-size: 24px;
+    top: 14px;
+    left: 16px;
+  }
+
+  .cell-text {
+    font-size: 18px; /* На мобильных тоже крупнее */
+  }
+}
